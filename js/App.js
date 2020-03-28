@@ -46,7 +46,7 @@
         this.stage.addChild(this.fondo);
 
         var bmpBola = this.cargador[rutaBola];
-        this.bola = new Bola(bmpBola);
+        this.bola = new createjs.Bitmap(bmpBola);
         this.stage.addChild(this.bola);
 
         var self = this;
