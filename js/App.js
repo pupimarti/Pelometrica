@@ -26,6 +26,8 @@
         this.canvas.width = 600;
         this.canvas.height = 600;
 
+        this.score = 0;
+
         var contenedor = document.getElementById("juego");
         contenedor.appendChild(this.canvas);
         this.stage = new createjs.Stage(this.canvas);
@@ -48,6 +50,12 @@
         this.bola = new Bola(bmpBola);
         this.bola.set({x:250,y:415});
         this.stage.addChild(this.bola);
+
+        this.scoreText = new createjs.Text("Score: "+this.score, "bold 20px Arial", "#000");
+        this.scoreText.x = 10;
+        this.scoreText.y = 30;
+        this.scoreText.textBaseline = "alphabetic";
+        this.stage.addChild(this.scoreText);
 
         var self = this;
         createjs.Ticker.interval = 20;
@@ -73,6 +81,8 @@
         alimentos.push(cuadrado);
     }
 
+    
+
     App.prototype.eliminarAlimento = function(alimento){
         var index = alimentos.indexOf(alimento);
         if(index != -1)
@@ -80,11 +90,13 @@
     }
 
     App.prototype.sumarScore = function(suma){
-        console.log(suma);
+        this.score += suma;
+        this.scoreText.set({text:'Score: '+ this.score});
     }
 
     App.prototype.restarScore = function(resta){
-        console.log(resta);
+        this.score -= resta;
+        this.scoreText.set({text:'Score: '+ this.score});
     }
 
 
