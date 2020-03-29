@@ -18,11 +18,18 @@
         }
     }
 
-    Alimento.prototype.update = function(){
+    Alimento.prototype.update = function(bola, alimentos){
         {
-            this.velocidad.y += 1;
+            this.velocidad.y += 0.1;
             if(this.velocidad.y < 0 || this.y < 425){
                 this.set({y:this.y + this.velocidad.y});
+            }
+            var col = ndgmr.checkRectCollision(bola, this);
+            
+            if(col){
+                alimentos.splice(alimentos.indexOf(this), 1);
+                this.parent.removeChild(this);
+                //window.app.alimentos.splice(window.app.alimentos.indexOf(this), 1);
             }
         }
     }

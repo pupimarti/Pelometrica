@@ -16,7 +16,7 @@
     var rutaEstrella = "assets/Estrella.png";
     var rutaTriangulo = "assets/Triangulo50.png";
 
-    var alimentos = [{}];
+    var alimentos = [];
         
     const URL = "test";
 
@@ -61,9 +61,7 @@
         this.bola.update();
         if(alimentos.length > 0){
             alimentos.forEach(a => {
-                if(a.update != undefined){
-                    a.update();
-                }
+                a.update(this.bola, alimentos);
             });
         }
     }
