@@ -21,24 +21,27 @@
 
     Alimento.prototype.update = function(bola){
         {
-            this.velocidad.y += 0.01;
-            if(this.velocidad.y < 0 || this.y < 430){
-                this.set({y:this.y + this.velocidad.y});
-            }else if(this.y >= 430){
-                this.eliminar();
-                window.app.restarScore(this.suma)
-            }
-            var col = ndgmr.checkRectCollision(bola, this);
-            if(col){
-                this.eliminar();
-                window.app.sumarScore(this.suma);
+            if(this.parent != null){
+                this.velocidad.y += 0.01;
+                if(this.velocidad.y < 0 || this.y < 430){
+                    this.set({y:this.y + this.velocidad.y});
+                }else if(this.y >= 430){
+                    this.eliminar();
+                    window.app.restarScore(this.suma)
+                }
+                var col = ndgmr.checkRectCollision(bola, this);
+                if(col){
+                    this.eliminar();
+                    window.app.sumarScore(this.suma);
+                }
             }
         }
 
     Alimento.prototype.eliminar = function(){
-        window.app.eliminarAlimento(this);
-        this.parent.removeChild(this);
-    }
+            if(this.parent != null){
+                window.app.eliminarAlimento(this);
+            }
+        }
     }
 
     scope.Alimento = Alimento;

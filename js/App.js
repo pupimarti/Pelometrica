@@ -17,8 +17,6 @@
     var rutaTriangulo = "assets/Triangulo50.png";
 
     var alimentos = [];
-        
-    const URL = "test";
 
     App.prototype.initialize = function(){
         var self = this;
@@ -35,7 +33,7 @@
         this.cargador = new Cargador();
         this.cargador.cargaCompletada = function(){
             self.assetsCargados();
-            self.lluviaAlimentos();
+            self.iniciarLluvia();
         }
         this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaEstrella,rutaTriangulo, rutaCuadrado]);
     }
@@ -67,16 +65,24 @@
     App.prototype.tick = function(){
         this.stage.update();
         this.bola.update();
-        if(alimentos.length > 0){
+        /*if(alimentos.length > 0){
             alimentos.forEach(a => {
-                a.update(this.bola, alimentos);
+                a.update(this.bola);
             });
+        }*/
+        for(var i = 0; i < alimentos.length; i++){
+            alimentos[i].update(this.bola);
         }
     }
 
-    App.prototype.lluviaAlimentos = function(){
+    App.prototype.iniciarLluvia = function(){
+        this.timerLluvia = window.setInterval("app.agregarCuadrado()", 3000);
+    }
+
+    App.prototype.agregarCuadrado = function(){
         var bmpCuadrado = this.cargador[rutaCuadrado];
-        var cuadrado = new Alimento(bmpCuadrado, 10, 40);
+        var x = Math.floor(Math.random() * 550);
+        var cuadrado = new Alimento(bmpCuadrado, 10, x);
         this.stage.addChild(cuadrado);
         alimentos.push(cuadrado);
     }
@@ -84,9 +90,10 @@
     
 
     App.prototype.eliminarAlimento = function(alimento){
-        var index = alimentos.indexOf(alimento);
+        var index = alimentos.findIndex(a => a.x === alimento.x);
+        this.stage.removeChild(alimento);
         if(index != -1)
-            alimentos.splice(alimentos.indexOf(index), 1);
+            alimentos.splice(index, 1);
     }
 
     App.prototype.sumarScore = function(suma){
