@@ -49,11 +49,29 @@
 
         var self = this;
         createjs.Ticker.addEventListener("tick", handleTick);
-        createjs.Ticker.interval = 1;
+        createjs.Ticker.interval = 10;
         function handleTick(e){
             self.bola.update();
             self.tick();
         };
+
+    document.addEventListener("keypress", function(e){
+        switch(e.keyCode){
+            case 119: //w
+                self.bola.saltar();
+                break;
+            case 32:
+                self.bola.saltar();
+                break;
+            case 97: //a
+                self.bola.moverIzquierda();
+                break;
+            case 100: //d
+                self.bola.moverDerecha();
+                break;
+        }
+    })
+        
     }
 
     App.prototype.tick = function(){
