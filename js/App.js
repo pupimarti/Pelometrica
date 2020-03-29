@@ -12,9 +12,11 @@
 
     var rutaFondo = "assets/fondo.jpg";
     var rutaBola = "assets/bola50.png";
-    var rutaCuadrado = "assets/Cuadrado.png";
+    var rutaCuadrado = "assets/Cuadrado50.png";
     var rutaEstrella = "assets/Estrella.png";
-    var rutaTriangulo = "assets/Triangulo.png";
+    var rutaTriangulo = "assets/Triangulo50.png";
+
+    var alimentos = [{}];
         
     const URL = "test";
 
@@ -31,6 +33,7 @@
         this.cargador = new Cargador();
         this.cargador.cargaCompletada = function(){
             self.assetsCargados();
+            self.lluviaAlimentos();
         }
         this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaEstrella,rutaTriangulo, rutaCuadrado]);
     }
@@ -46,38 +49,52 @@
         this.bola.set({x:250,y:415});
         this.stage.addChild(this.bola);
 
-
         var self = this;
+        createjs.Ticker.interval = 30;
         createjs.Ticker.addEventListener("tick", handleTick);
-        createjs.Ticker.interval = 10;
         function handleTick(e){
-            self.bola.update();
             self.tick();
         };
 
+    App.prototype.tick = function(){
+        this.stage.update();
+        this.bola.update();
+        if(alimentos.length > 0){
+            alimentos.forEach(a => {
+                if(a.update != undefined){
+                    a.update();
+                }
+            });
+        }
+    }
+
+    App.prototype.lluviaAlimentos = function(){
+        var bmpCuadrado = this.cargador[rutaCuadrado];
+        var cuadrado = new Alimento(bmpCuadrado, 10, 40);
+        this.stage.addChild(cuadrado);
+        alimentos.push(cuadrado);
+    }
+
+
     document.addEventListener("keypress", function(e){
-        switch(e.keyCode){
-            case 119: //w
+        switch(e.key){
+            case 'w': //w
+            case 'ArrowUp':
+            case ' ': //space
                 self.bola.saltar();
                 break;
-            case 32:
-                self.bola.saltar();
-                break;
-            case 97: //a
+            case 'a': //a
+            case 'ArrowLeft':
                 self.bola.moverIzquierda();
                 break;
-            case 100: //d
+            case 'd': //d
+            case 'ArrowRight':
                 self.bola.moverDerecha();
                 break;
         }
     })
         
     }
-
-    App.prototype.tick = function(){
-        this.stage.update();
-    }
-
     scope.App = App;
 }(window));
 

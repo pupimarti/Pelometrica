@@ -19,16 +19,16 @@
         if(this.velocidad.x >= 20){
             this.velocidad.x = 20;
         }else{
-            this.velocidad.x *= 1.5;
+            this.velocidad.x += 2;
         }
     }
 
     Bola.prototype.moverIzquierda = function(){
-        if(this.velocidad.x <= 20){
-            this.velocidad.x = -20;
-        }else{
-            this.velocidad.x *= -0.5;
-        }
+            if(this.velocidad.x <= -20){
+                this.velocidad.x = -20;
+            }else{
+                this.velocidad.x -= 2;
+            }
     }
 
     Bola.prototype.saltar = function(){
@@ -37,21 +37,23 @@
 
     Bola.prototype.update = function(){
         {
-            this.velocidad.y += 1;
-            if(this.velocidad.y < 0 || this.y < 425){
-                this.set({y:this.y + this.velocidad.y});
-            }
 
             if(this.velocidad.x != 0){
                 if(this.velocidad.x > 0){
-                    this.velocidad.x *= 1.2;
+                    this.velocidad.x *= 0.9;
                 }else{
-                    this.velocidad.x *= 0.6;
+                    this.velocidad.x *= 0.9;
                 }
-                this.set({x:this.x += this.velocidad.x});
-                if(this.x <= -50){
+                this.set({x:this.x += this.velocidad.x, skewX: this.rotation + this.velocidad.x});
+                if(this.x <= -50)
                     this.set({x: 600});
-                }
+                else if(this.x >= 600)
+                    this.set({x:-50});
+            }
+            
+            this.velocidad.y += 1;
+            if(this.velocidad.y < 0 || this.y < 425){
+                this.set({y:this.y + this.velocidad.y});
             }
         }
     }
