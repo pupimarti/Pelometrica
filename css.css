@@ -2,11 +2,13 @@ body{
     margin: 0;
     padding: 0;
     border: 0;
-    background-color: #000;
 }
 
 #juego{
     width: 100vw;
     height: 100vh;
-    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
 }

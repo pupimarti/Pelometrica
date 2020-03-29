@@ -23,9 +23,7 @@
         var image = new Image();   
         var self = this;
         this[ruta] = image;
-        console.log("a cargar: " + ruta)
         image.onload = function(element){
-            console.log("imagen cargada.");
             self.imagenCargada();
         }
         image.src = image.src = ruta;

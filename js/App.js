@@ -11,7 +11,7 @@
     var nave = App.prototype;
 
     var rutaFondo = "assets/fondo.jpg";
-    var rutaBola = "assets/bola.png";
+    var rutaBola = "assets/bola50.png";
     var rutaCuadrado = "assets/Cuadrado.png";
     var rutaEstrella = "assets/Estrella.png";
     var rutaTriangulo = "assets/Triangulo.png";
@@ -23,7 +23,6 @@
         this.canvas = document.createElement("canvas");
         this.canvas.width = 600;
         this.canvas.height = 600;
-        this.canvas.style.backgroundColor = "#000";
 
         var contenedor = document.getElementById("juego");
         contenedor.appendChild(this.canvas);
@@ -37,21 +36,22 @@
     }
 
     App.prototype.assetsCargados = function(){
-
-        
-        console.log("todos los recursos cargados.");
-
         var bmp = this.cargador[rutaFondo];
         this.fondo = new createjs.Bitmap(bmp);
+        this.fondo.setTransform(0, 0, 2, 2);
         this.stage.addChild(this.fondo);
 
         var bmpBola = this.cargador[rutaBola];
-        this.bola = new createjs.Bitmap(bmpBola);
+        this.bola = new Bola(bmpBola);
+        this.bola.set({x:250,y:415});
         this.stage.addChild(this.bola);
+
 
         var self = this;
         createjs.Ticker.addEventListener("tick", handleTick);
+        createjs.Ticker.interval = 1;
         function handleTick(e){
+            self.bola.update();
             self.tick();
         };
     }
