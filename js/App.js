@@ -50,7 +50,7 @@
         this.stage.addChild(this.bola);
 
         var self = this;
-        createjs.Ticker.interval = 30;
+        createjs.Ticker.interval = 20;
         createjs.Ticker.addEventListener("tick", handleTick);
         function handleTick(e){
             self.tick();
@@ -73,8 +73,22 @@
         alimentos.push(cuadrado);
     }
 
+    App.prototype.eliminarAlimento = function(alimento){
+        var index = alimentos.indexOf(alimento);
+        if(index != -1)
+            alimentos.splice(alimentos.indexOf(index), 1);
+    }
 
-    document.addEventListener("keypress", function(e){
+    App.prototype.sumarScore = function(suma){
+        console.log(suma);
+    }
+
+    App.prototype.restarScore = function(resta){
+        console.log(resta);
+    }
+
+
+    document.addEventListener("keydown", function(e){
         switch(e.key){
             case 'w': //w
             case 'ArrowUp':

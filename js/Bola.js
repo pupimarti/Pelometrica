@@ -32,7 +32,9 @@
     }
 
     Bola.prototype.saltar = function(){
-        this.velocidad.y = -15;
+        if(this.y === 425){
+            this.velocidad.y = -15;
+        }
     }
 
     Bola.prototype.update = function(){
