@@ -24,11 +24,11 @@
         {
             if(this.parent != null){
                 this.velocidad.y += this.velocidad.velocidad;
-                if(this.velocidad.y < 0 || this.y < 430){
+                if(this.velocidad.y < 0 || this.y < 600){
                     this.set({y:this.y + this.velocidad.y});
-                }else if(this.y >= 430){
+                }else if(this.y >= 600){
                     this.eliminar();
-                    window.app.restarScore(this.suma)
+                    window.app.quitarVida()
                 }
                 var col = ndgmr.checkRectCollision(bola, this);
                 if(col){

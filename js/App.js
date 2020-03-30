@@ -26,6 +26,7 @@
         this.canvas.height = 600;
 
         this.score = 0;
+        this.vidas = 5;
 
         var contenedor = document.getElementById("juego");
         contenedor.appendChild(this.canvas);
@@ -56,6 +57,12 @@
         this.scoreText.textBaseline = "alphabetic";
         this.stage.addChild(this.scoreText);
 
+        this.vidaText = new createjs.Text("Vidas: "+this.vidas, "bold 20px Arial", "#000");
+        this.vidaText.x = 10;
+        this.vidaText.y = 50;
+        this.vidaText.textBaseline = "alphabetic";
+        this.stage.addChild(this.vidaText);
+
         var self = this;
         createjs.Ticker.interval = 20;
         createjs.Ticker.addEventListener("tick", handleTick);
@@ -68,16 +75,26 @@
         this.bola.update();
         if(alimentos.length > 0){
             alimentos.forEach(a => {
-                a.update(this.bola);
+                if(this.vidas <= 0)
+                    this.eliminarAlimento(a);
+                else
+                    a.update(this.bola);
             });
         }
     }
 
     App.prototype.iniciarLluvia = function(){
-        var timerLluvia = window.setInterval("app.agregarCuadrado()", 3000);
-        var timerPoligono = window.setInterval("app.agregarPoligono()", 4100);
-        var timerTriangulo = window.setInterval("app.agregarTriangulo()", 5000);
-        var timerMalo = window.setInterval("app.agregarTrianguloMalo()", 6500);
+        this.timerLluvia = window.setInterval("app.agregarCuadrado()", 4000);
+        this.timerPoligono = window.setInterval("app.agregarPoligono()", 5000);
+        this.timerTriangulo = window.setInterval("app.agregarTriangulo()", 7500);
+        this.timerMalo = window.setInterval("app.agregarTrianguloMalo()", 9500);
+    }
+
+    App.prototype.pararLluvia = function(){
+        window.clearInterval(this.timerLluvia);
+        window.clearInterval(this.timerPoligono);
+        window.clearInterval(this.timerTriangulo);
+        window.clearInterval(this.timerMalo);
     }
 
     App.prototype.agregarCuadrado = function(){
@@ -124,9 +141,12 @@
         this.scoreText.set({text:'Score: '+ this.score});
     }
 
-    App.prototype.restarScore = function(resta){
-        this.score -= resta;
-        this.scoreText.set({text:'Score: '+ this.score});
+    App.prototype.quitarVida = function(){
+        this.vidas--;
+        if(this.vidas <= 0){
+            this.pararLluvia();
+        }
+        this.vidaText.set({text:'Vidas: '+ this.vidas});
     }
 
 
