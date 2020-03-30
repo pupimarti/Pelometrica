@@ -10,8 +10,9 @@
     Bola.prototype.inicializar = function(bmp){
         this.image = bmp;
 
-        this.y_piso = ((window.app.canvas.height / 4) - ((this.image.height * window.app.adaptador) / 2)) * 3;
-
+        this.y_piso = ((window.app.canvas.height / 4) * 3) - ((this.image.height * window.app.adaptador));
+        console.log(this.y_piso);
+        console.log(window.app.canvas.height);
         
         this.velocidad = {
             x: 0,
@@ -23,7 +24,7 @@
         if(this.velocidad.x >= 20){
             this.velocidad.x = 20;
         }else{
-            this.velocidad.x += 3;
+            this.velocidad.x += 2 * window.app.adaptador;
         }
     }
 
@@ -31,7 +32,7 @@
             if(this.velocidad.x <= -20){
                 this.velocidad.x = -20;
             }else{
-                this.velocidad.x -= 3 ;
+                this.velocidad.x -= 2 * window.app.adaptador;
             }
     }
 

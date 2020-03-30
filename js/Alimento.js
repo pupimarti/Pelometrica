@@ -28,7 +28,7 @@
     Alimento.prototype.update = function(bola){
         {
             if(this.parent != null){
-                this.velocidad.y += this.velocidad.velocidad;
+                this.velocidad.y += (this.velocidad.velocidad * window.app.adaptador);
                 if(this.velocidad.y < 0 || this.y < window.app.canvas.height){
                     this.set({y:this.y + this.velocidad.y});
                 }else if(this.y >= window.app.canvas.height){
