@@ -3,19 +3,14 @@
         this.initialize();
     }
 
-    var canvas = App.prototype;
-    var stage = App.prototype;
-    var cargador = App.prototype;
-
-    var fondo = App.prototype;
-    var nave = App.prototype;
-
     var rutaFondo = "assets/fondo.jpg";
     var rutaBola = "assets/bola.png";
     var rutaCuadrado = "assets/Cuadrado.png";
     var rutaTrianguMalo = "assets/Triangumalo.png";
     var rutaPoligono = "assets/poligono.png";
     var rutaTriangulo = "assets/Triangulo.png";
+    var rutaTitulo = "assets/Titulo.png";
+    var rutaJugar = "assets/Jugar.png";
 
     var alimentos = [];
 
@@ -35,9 +30,8 @@
         this.cargador = new Cargador();
         this.cargador.cargaCompletada = function(){
             self.assetsCargados();
-            self.iniciarLluvia();
         }
-        this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado]);
+        this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaTitulo, rutaJugar]);
     }
 
     App.prototype.assetsCargados = function(){
@@ -51,17 +45,7 @@
         this.bola.set({x:250,y:415});
         this.stage.addChild(this.bola);
 
-        this.scoreText = new createjs.Text("Score: "+this.score, "bold 20px Arial", "#000");
-        this.scoreText.x = 10;
-        this.scoreText.y = 30;
-        this.scoreText.textBaseline = "alphabetic";
-        this.stage.addChild(this.scoreText);
-
-        this.vidaText = new createjs.Text("Vidas: "+this.vidas, "bold 20px Arial", "#000");
-        this.vidaText.x = 10;
-        this.vidaText.y = 50;
-        this.vidaText.textBaseline = "alphabetic";
-        this.stage.addChild(this.vidaText);
+        this.panatallaInicio();
 
         var self = this;
         createjs.Ticker.interval = 20;
@@ -69,6 +53,7 @@
         function handleTick(e){
             self.tick();
         };
+    }
 
     App.prototype.tick = function(){
         this.stage.update();
@@ -81,6 +66,54 @@
                     a.update(this.bola);
             });
         }
+    }
+
+    App.prototype.iniciarJuego = function(){
+
+        this.stage.removeChild(this.titulo);
+        this.stage.removeChild(this.jugar);
+
+        this.scoreText = new createjs.Text("Score: "+this.score, "bold 20px Arial", "#000");
+        this.scoreText.x = 10;
+        this.scoreText.y = 30;
+        this.scoreText.textBaseline = "alphabetic";
+        this.stage.addChild(this.scoreText);
+
+        this.vidaText = new createjs.Text("Vidas: "+this.vidas, "bold 20px Arial", "#000");
+        this.vidaText.x = 10;
+        this.vidaText.y = 50;
+        this.vidaText.textBaseline = "alphabetic";
+        this.stage.addChild(this.vidaText);
+
+        this.iniciarLluvia();
+    }
+
+    App.prototype.panatallaInicio = function(){
+        this.pararJuego();
+        var bmp = this.cargador[rutaTitulo];
+        this.titulo = new createjs.Bitmap(bmp);
+        this.titulo.setTransform(200,100,1,1);
+        this.stage.addChild(this.titulo);
+
+        var bmp = this.cargador[rutaJugar];
+        this.jugar = new createjs.Bitmap(bmp);
+        this.jugar.setTransform(220,300,1,1);
+        this.stage.addEventListener("stagemousedown", handleClick);
+        function handleClick(e) {
+           // Check si hace click a jugar (no encontre otra forma)
+           if(e.localX > 220 && e.localX < 370 && e.localY > 300 && e.localY < 340){ 
+               app.iniciarJuego();
+           }
+        }
+        this.stage.addChild(this.jugar);
+    }
+
+    
+
+    App.prototype.pararJuego = function(){
+        this.stage.removeChild(this.vidaText);
+        this.stage.removeChild(this.scoreText);
+        this.pararLluvia();
     }
 
     App.prototype.iniciarLluvia = function(){
@@ -143,10 +176,10 @@
 
     App.prototype.quitarVida = function(){
         this.vidas--;
-        if(this.vidas <= 0){
-            this.pararLluvia();
-        }
-        this.vidaText.set({text:'Vidas: '+ this.vidas});
+        if(this.vidas <= 0)
+            this.panatallaInicio();
+        else
+            this.vidaText.set({text:'Vidas: '+ this.vidas});
     }
 
 
@@ -155,20 +188,19 @@
             case 'w': //w
             case 'ArrowUp':
             case ' ': //space
-                self.bola.saltar();
+                app.bola.saltar();
                 break;
             case 'a': //a
             case 'ArrowLeft':
-                self.bola.moverIzquierda();
+                app.bola.moverIzquierda();
                 break;
             case 'd': //d
             case 'ArrowRight':
-                self.bola.moverDerecha();
+                app.bola.moverDerecha();
                 break;
         }
     })
         
-    }
     scope.App = App;
 }(window));
 
