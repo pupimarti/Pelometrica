@@ -14,6 +14,8 @@
 
     var alimentos = [];
 
+    var vidas = 0;
+
     App.prototype.initialize = function(){
         var self = this;
         this.canvas = document.createElement("canvas");
@@ -26,7 +28,7 @@
         var contenedor = document.getElementById("juego");
         contenedor.appendChild(this.canvas);
         this.stage = new createjs.Stage(this.canvas);
-        
+
         this.cargador = new Cargador();
         this.cargador.cargaCompletada = function(){
             self.assetsCargados();
@@ -45,51 +47,19 @@
         this.bola.set({x:250,y:415});
         this.stage.addChild(this.bola);
 
-        this.panatallaInicio();
-
-        var self = this;
-        createjs.Ticker.interval = 20;
-        createjs.Ticker.addEventListener("tick", handleTick);
-        function handleTick(e){
-            self.tick();
-        };
-    }
-
-    App.prototype.tick = function(){
-        this.stage.update();
-        this.bola.update();
-        if(alimentos.length > 0){
-            alimentos.forEach(a => {
-                if(this.vidas <= 0)
-                    this.eliminarAlimento(a);
-                else
-                    a.update(this.bola);
-            });
-        }
-    }
-
-    App.prototype.iniciarJuego = function(){
-
-        this.stage.removeChild(this.titulo);
-        this.stage.removeChild(this.jugar);
-
         this.scoreText = new createjs.Text("Score: "+this.score, "bold 20px Arial", "#000");
         this.scoreText.x = 10;
         this.scoreText.y = 30;
         this.scoreText.textBaseline = "alphabetic";
         this.stage.addChild(this.scoreText);
 
-        this.vidaText = new createjs.Text("Vidas: "+this.vidas, "bold 20px Arial", "#000");
+        this.vidaText = new createjs.Text("Vidas: "+vidas, "bold 20px Arial", "#000");
         this.vidaText.x = 10;
         this.vidaText.y = 50;
         this.vidaText.textBaseline = "alphabetic";
         this.stage.addChild(this.vidaText);
 
-        this.iniciarLluvia();
-    }
-
-    App.prototype.panatallaInicio = function(){
-        this.pararJuego();
+        
         var bmp = this.cargador[rutaTitulo];
         this.titulo = new createjs.Bitmap(bmp);
         this.titulo.setTransform(200,100,1,1);
@@ -106,14 +76,55 @@
            }
         }
         this.stage.addChild(this.jugar);
+
+        this.panatallaInicio();
+
+        var self = this;
+        createjs.Ticker.interval = 20;
+        createjs.Ticker.addEventListener("tick", handleTick);
+        function handleTick(e){
+            self.tick();
+        };
+    }
+
+    App.prototype.tick = function(){
+        this.stage.update();
+        this.bola.update();
+        if(alimentos.length > 0){
+            alimentos.forEach(a => {
+                if(vidas <= 0)
+                    this.eliminarAlimento(a);
+                else
+                    a.update(this.bola);
+            });
+        }
+    }
+
+    App.prototype.iniciarJuego = function(){
+
+        this.titulo.visible = false;
+        this.jugar.visible = false;
+
+        this.vidaText.visible = true;
+        this.scoreText.visible = true;
+
+        vidas = this.vidas;
+
+
+        this.iniciarLluvia();
     }
 
     
-
     App.prototype.pararJuego = function(){
-        this.stage.removeChild(this.vidaText);
-        this.stage.removeChild(this.scoreText);
+        this.vidaText.visible = false;
+        this.scoreText.visible = false;
         this.pararLluvia();
+    }
+
+    App.prototype.panatallaInicio = function(){
+        this.pararJuego();
+        this.titulo.visible = true;
+        this.jugar.visible = true;
     }
 
     App.prototype.iniciarLluvia = function(){
@@ -175,11 +186,11 @@
     }
 
     App.prototype.quitarVida = function(){
-        this.vidas--;
-        if(this.vidas <= 0)
+        vidas--;
+        if(vidas <= 0)
             this.panatallaInicio();
         else
-            this.vidaText.set({text:'Vidas: '+ this.vidas});
+            this.vidaText.set({text:'Vidas: '+ vidas});
     }
 
 

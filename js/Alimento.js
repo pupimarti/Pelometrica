@@ -28,7 +28,8 @@
                     this.set({y:this.y + this.velocidad.y});
                 }else if(this.y >= 600){
                     this.eliminar();
-                    window.app.quitarVida()
+                    if(this.suma > 0)
+                        window.app.quitarVida()
                 }
                 var col = ndgmr.checkRectCollision(bola, this);
                 if(col){
