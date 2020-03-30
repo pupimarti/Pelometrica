@@ -15,7 +15,7 @@
     var alimentos = [];
 
     var vidas = 0;
-    var score = 0;
+    var puntuacion = 0;
 
     App.prototype.initialize = function(){
         var self = this;
@@ -24,14 +24,15 @@
         if(this.canvas.height / 2 > this.canvas.width){
             this.canvas.width = screen.width;
             this.canvas.height = screen.width * 2;
+            this.adaptador = this.canvas.width / 400;
         }else{
             this.canvas.width = screen.height / 2;
             this.canvas.height = screen.height;
+            this.adaptador = this.canvas.height / 800;
         }
 
-        this.adaptador = this.canvas.height / 800;
 
-        this.score = 0;
+        this.puntuacion = 0;
         this.vidas = 5;
 
         var contenedor = document.getElementById("juego");
@@ -57,17 +58,23 @@
         this.bola.setTransform(x_bola,this.canvas.height / 2, this.adaptador, this.adaptador);
         this.stage.addChild(this.bola);
 
-        this.scoreText = new createjs.Text("Score: "+score, "bold 20px Arial", "#000");
-        this.scoreText.x = 10;
-        this.scoreText.y = 30;
-        this.scoreText.textBaseline = "alphabetic";
-        this.stage.addChild(this.scoreText);
+        this.puntuacionText = new createjs.Text("Puntuación: "+puntuacion, `bold ${20*this.adaptador}px Arial`, "#000");
+        this.puntuacionText.x = 20 * this.adaptador;
+        this.puntuacionText.y = 30 * this.adaptador;
+        this.puntuacionText.textBaseline = "alphabetic";
+        this.stage.addChild(this.puntuacionText);
 
-        this.vidaText = new createjs.Text("Vidas: "+vidas, "bold 20px Arial", "#000");
-        this.vidaText.x = 10;
-        this.vidaText.y = 50;
+        this.vidaText = new createjs.Text("Vidas: "+vidas, `bold ${20*this.adaptador}px Arial`, "#000");
+        this.vidaText.x = 20 * this.adaptador;
+        this.vidaText.y = 50 * this.adaptador;
         this.vidaText.textBaseline = "alphabetic";
         this.stage.addChild(this.vidaText);
+
+        this.mejorPuntuacionText = new createjs.Text("Mejor Puntuación: "+vidas, `bold ${20*this.adaptador}px Arial`, "#000");
+        this.mejorPuntuacionText.x = 20 * this.adaptador;
+        this.mejorPuntuacionText.y = 50 * this.adaptador;
+        this.mejorPuntuacionText.textBaseline = "alphabetic";
+        this.stage.addChild(this.mejorPuntuacionText);
 
         
         var bmp = this.cargador[rutaTitulo];
@@ -118,23 +125,28 @@
 
         this.titulo.visible = false;
         this.jugar.visible = false;
+        this.mejorPuntuacionText.visible = false;
 
         this.vidaText.visible = true;
-        this.scoreText.visible = true;
+        this.puntuacionText.visible = true;
 
         vidas = this.vidas;
         this.actualizarVida();
 
-        score = 0;
-        this.actualizarScore();
+        puntuacion = 0;
+        this.actualizarPuntuacion();
 
         this.iniciarLluvia();
     }
 
     
     App.prototype.pararJuego = function(){
+        if(puntuacion > this.puntuacion){
+            this.puntuacion = puntuacion;
+            this.actualizarMejorPuntuacion();
+        }
         this.vidaText.visible = false;
-        this.scoreText.visible = false;
+        this.puntuacionText.visible = false;
         this.pararLluvia();
     }
 
@@ -142,6 +154,7 @@
         this.pararJuego();
         this.titulo.visible = true;
         this.jugar.visible = true;
+        this.mejorPuntuacionText.visible = true;
     }
 
     App.prototype.iniciarLluvia = function(){
@@ -158,10 +171,10 @@
         clearInterval(this.timerMalo);
     }
 
-    App.prototype.agregarAlimento = function (ruta, score, velocidad){
+    App.prototype.agregarAlimento = function (ruta, puntuacion, velocidad){
         var bmp = this.cargador[ruta];
         var x = Math.floor(Math.random() * (this.canvas.width - 50));
-        var alimento = new Alimento(bmp, score, x, velocidad);
+        var alimento = new Alimento(bmp, puntuacion, x, velocidad);
         this.stage.addChild(alimento);
         alimentos.push(alimento);
     }
@@ -173,9 +186,9 @@
             alimentos.splice(index, 1);
     }
 
-    App.prototype.sumarScore = function(suma){
-        score += suma;
-        this.actualizarScore();
+    App.prototype.sumarPuntuacion = function(suma){
+        puntuacion += suma;
+        this.actualizarPuntuacion();
     }
 
     App.prototype.quitarVida = function(){
@@ -186,7 +199,9 @@
 
     App.prototype.actualizarVida = function(){this.vidaText.set({text:'Vidas: '+ vidas})};
 
-    App.prototype.actualizarScore = function(){this.scoreText.set({text:'Score: '+ score})};
+    App.prototype.actualizarPuntuacion = function(){this.puntuacionText.set({text:'Puntuación: '+ puntuacion})};
+
+    App.prototype.actualizarMejorPuntuacion = function(){this.mejorPuntuacionText.set({text:'Mejor Puntuacion: '+ this.puntuacion})};
 
 
     document.addEventListener("keydown", function(e){

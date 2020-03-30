@@ -11,8 +11,6 @@
         this.image = bmp;
 
         this.y_piso = ((window.app.canvas.height / 4) * 3) - ((this.image.height * window.app.adaptador));
-        console.log(this.y_piso);
-        console.log(window.app.canvas.height);
         
         this.velocidad = {
             x: 0,

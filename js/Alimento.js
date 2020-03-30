@@ -42,7 +42,7 @@
                     if(this.suma < 0)
                         window.app.quitarVida();
                     else
-                        window.app.sumarScore(this.suma);
+                        window.app.sumarPuntuacion(this.suma);
                 }
             }
         }
