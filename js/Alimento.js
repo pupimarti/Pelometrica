@@ -1,12 +1,12 @@
 (function(scope){
-    function Alimento(bmp, suma, pos_x){
-        this.inicializar(bmp, suma, pos_x);
+    function Alimento(bmp, suma, pos_x, velocidad){
+        this.inicializar(bmp, suma, pos_x, velocidad);
     }
 
     
     Alimento.prototype = new createjs.Bitmap();
 
-    Alimento.prototype.inicializar = function(bmp, suma, x){
+    Alimento.prototype.inicializar = function(bmp, suma, x, velocidad){
         this.image = bmp;
         this.setTransform(x,-30,0.5,0.5);
         
@@ -15,6 +15,7 @@
         this.set({x:x})
         
         this.velocidad = {
+            velocidad: velocidad,
             y: 0,
         }
     }
@@ -22,7 +23,7 @@
     Alimento.prototype.update = function(bola){
         {
             if(this.parent != null){
-                this.velocidad.y += 0.01;
+                this.velocidad.y += this.velocidad.velocidad;
                 if(this.velocidad.y < 0 || this.y < 430){
                     this.set({y:this.y + this.velocidad.y});
                 }else if(this.y >= 430){

@@ -11,10 +11,11 @@
     var nave = App.prototype;
 
     var rutaFondo = "assets/fondo.jpg";
-    var rutaBola = "assets/bola50.png";
-    var rutaCuadrado = "assets/Cuadrado50.png";
-    var rutaEstrella = "assets/Estrella.png";
-    var rutaTriangulo = "assets/Triangulo50.png";
+    var rutaBola = "assets/bola.png";
+    var rutaCuadrado = "assets/Cuadrado.png";
+    var rutaTrianguMalo = "assets/Triangumalo.png";
+    var rutaPoligono = "assets/poligono.png";
+    var rutaTriangulo = "assets/Triangulo.png";
 
     var alimentos = [];
 
@@ -35,7 +36,7 @@
             self.assetsCargados();
             self.iniciarLluvia();
         }
-        this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaEstrella,rutaTriangulo, rutaCuadrado]);
+        this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado]);
     }
 
     App.prototype.assetsCargados = function(){
@@ -65,32 +66,54 @@
     App.prototype.tick = function(){
         this.stage.update();
         this.bola.update();
-        /*if(alimentos.length > 0){
+        if(alimentos.length > 0){
             alimentos.forEach(a => {
                 a.update(this.bola);
             });
-        }*/
-        for(var i = 0; i < alimentos.length; i++){
-            alimentos[i].update(this.bola);
         }
     }
 
     App.prototype.iniciarLluvia = function(){
-        this.timerLluvia = window.setInterval("app.agregarCuadrado()", 3000);
+        var timerLluvia = window.setInterval("app.agregarCuadrado()", 3000);
+        var timerPoligono = window.setInterval("app.agregarPoligono()", 4100);
+        var timerTriangulo = window.setInterval("app.agregarTriangulo()", 5000);
+        var timerMalo = window.setInterval("app.agregarTrianguloMalo()", 6500);
     }
 
     App.prototype.agregarCuadrado = function(){
-        var bmpCuadrado = this.cargador[rutaCuadrado];
+        var bmp = this.cargador[rutaCuadrado];
         var x = Math.floor(Math.random() * 550);
-        var cuadrado = new Alimento(bmpCuadrado, 10, x);
+        var cuadrado = new Alimento(bmp, 100, x, 0.005);
         this.stage.addChild(cuadrado);
         alimentos.push(cuadrado);
     }
 
-    
+    App.prototype.agregarTriangulo = function(){
+        var bmp = this.cargador[rutaTriangulo];
+        var x = Math.floor(Math.random() * 550);
+        var triangulo = new Alimento(bmp, 250, x, 0.01);
+        this.stage.addChild(triangulo);
+        alimentos.push(triangulo);
+    }
+
+    App.prototype.agregarPoligono = function(){
+        var bmp = this.cargador[rutaPoligono];
+        var x = Math.floor(Math.random() * 550);
+        var triangulo = new Alimento(bmp, 175, x, 0.008);
+        this.stage.addChild(triangulo);
+        alimentos.push(triangulo);
+    }
+
+    App.prototype.agregarTrianguloMalo = function(){
+        var bmp = this.cargador[rutaTrianguMalo];
+        var x = Math.floor(Math.random() * 550);
+        var triangulo = new Alimento(bmp, -20, x, 0.01);
+        this.stage.addChild(triangulo);
+        alimentos.push(triangulo);
+    }
 
     App.prototype.eliminarAlimento = function(alimento){
-        var index = alimentos.findIndex(a => a.x === alimento.x);
+        var index = alimentos.indexOf(alimento);
         this.stage.removeChild(alimento);
         if(index != -1)
             alimentos.splice(index, 1);

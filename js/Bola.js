@@ -19,7 +19,7 @@
         if(this.velocidad.x >= 20){
             this.velocidad.x = 20;
         }else{
-            this.velocidad.x += 2;
+            this.velocidad.x += 3;
         }
     }
 
@@ -27,7 +27,7 @@
             if(this.velocidad.x <= -20){
                 this.velocidad.x = -20;
             }else{
-                this.velocidad.x -= 2;
+                this.velocidad.x -= 3;
             }
     }
 
