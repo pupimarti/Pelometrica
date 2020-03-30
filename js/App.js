@@ -15,6 +15,7 @@
     var alimentos = [];
 
     var vidas = 0;
+    var score = 0;
 
     App.prototype.initialize = function(){
         var self = this;
@@ -47,7 +48,7 @@
         this.bola.set({x:250,y:415});
         this.stage.addChild(this.bola);
 
-        this.scoreText = new createjs.Text("Score: "+this.score, "bold 20px Arial", "#000");
+        this.scoreText = new createjs.Text("Score: "+score, "bold 20px Arial", "#000");
         this.scoreText.x = 10;
         this.scoreText.y = 30;
         this.scoreText.textBaseline = "alphabetic";
@@ -110,6 +111,9 @@
 
         vidas = this.vidas;
         this.actualizarVida();
+        
+        score = 0;
+        this.actualizarScore();
 
         this.iniciarLluvia();
     }
@@ -157,8 +161,8 @@
     }
 
     App.prototype.sumarScore = function(suma){
-        this.score += suma;
-        this.scoreText.set({text:'Score: '+ this.score});
+        score += suma;
+        this.actualizarScore();
     }
 
     App.prototype.quitarVida = function(){
@@ -168,6 +172,8 @@
     }
 
     App.prototype.actualizarVida = function(){this.vidaText.set({text:'Vidas: '+ vidas})};
+
+    App.prototype.actualizarScore = function(){this.scoreText.set({text:'Score: '+ score})};
 
 
     document.addEventListener("keydown", function(e){
