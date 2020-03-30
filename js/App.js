@@ -109,7 +109,7 @@
         this.scoreText.visible = true;
 
         vidas = this.vidas;
-
+        this.actualizarVida();
 
         this.iniciarLluvia();
     }
@@ -128,49 +128,25 @@
     }
 
     App.prototype.iniciarLluvia = function(){
-        this.timerLluvia = window.setInterval("app.agregarCuadrado()", 4000);
-        this.timerPoligono = window.setInterval("app.agregarPoligono()", 5000);
-        this.timerTriangulo = window.setInterval("app.agregarTriangulo()", 7500);
-        this.timerMalo = window.setInterval("app.agregarTrianguloMalo()", 9500);
+        this.timerLluvia = setInterval(`app.agregarAlimento('${rutaCuadrado}',100, 0.005)`, 4000);
+        this.timerPoligono = setInterval(`app.agregarAlimento('${rutaPoligono}',175, 0.008)`, 5000);
+        this.timerTriangulo = setInterval(`app.agregarAlimento('${rutaTriangulo}',250, 0.01)`, 7500);
+        this.timerMalo = setInterval(`app.agregarAlimento('${rutaTrianguMalo}',-1, 0.1)`, 9500);
     }
 
     App.prototype.pararLluvia = function(){
-        window.clearInterval(this.timerLluvia);
-        window.clearInterval(this.timerPoligono);
-        window.clearInterval(this.timerTriangulo);
-        window.clearInterval(this.timerMalo);
+        clearInterval(this.timerLluvia);
+        clearInterval(this.timerPoligono);
+        clearInterval(this.timerTriangulo);
+        clearInterval(this.timerMalo);
     }
 
-    App.prototype.agregarCuadrado = function(){
-        var bmp = this.cargador[rutaCuadrado];
+    App.prototype.agregarAlimento = function (ruta, score, velocidad){
+        var bmp = this.cargador[ruta];
         var x = Math.floor(Math.random() * 550);
-        var cuadrado = new Alimento(bmp, 100, x, 0.005);
-        this.stage.addChild(cuadrado);
-        alimentos.push(cuadrado);
-    }
-
-    App.prototype.agregarTriangulo = function(){
-        var bmp = this.cargador[rutaTriangulo];
-        var x = Math.floor(Math.random() * 550);
-        var triangulo = new Alimento(bmp, 250, x, 0.01);
-        this.stage.addChild(triangulo);
-        alimentos.push(triangulo);
-    }
-
-    App.prototype.agregarPoligono = function(){
-        var bmp = this.cargador[rutaPoligono];
-        var x = Math.floor(Math.random() * 550);
-        var triangulo = new Alimento(bmp, 175, x, 0.008);
-        this.stage.addChild(triangulo);
-        alimentos.push(triangulo);
-    }
-
-    App.prototype.agregarTrianguloMalo = function(){
-        var bmp = this.cargador[rutaTrianguMalo];
-        var x = Math.floor(Math.random() * 550);
-        var triangulo = new Alimento(bmp, -20, x, 0.01);
-        this.stage.addChild(triangulo);
-        alimentos.push(triangulo);
+        var alimento = new Alimento(bmp, score, x, velocidad);
+        this.stage.addChild(alimento);
+        alimentos.push(alimento);
     }
 
     App.prototype.eliminarAlimento = function(alimento){
@@ -187,11 +163,11 @@
 
     App.prototype.quitarVida = function(){
         vidas--;
-        if(vidas <= 0)
-            this.panatallaInicio();
-        else
-            this.vidaText.set({text:'Vidas: '+ vidas});
+        this.actualizarVida();
+        if(vidas <= 0) this.panatallaInicio();
     }
+
+    App.prototype.actualizarVida = function(){this.vidaText.set({text:'Vidas: '+ vidas})};
 
 
     document.addEventListener("keydown", function(e){

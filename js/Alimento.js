@@ -34,7 +34,10 @@
                 var col = ndgmr.checkRectCollision(bola, this);
                 if(col){
                     this.eliminar();
-                    window.app.sumarScore(this.suma);
+                    if(this.suma < 0)
+                        window.app.quitarVida();
+                    else
+                        window.app.sumarScore(this.suma);
                 }
             }
         }
