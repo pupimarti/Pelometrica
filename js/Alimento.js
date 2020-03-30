@@ -8,9 +8,14 @@
 
     Alimento.prototype.inicializar = function(bmp, suma, x, velocidad){
         this.image = bmp;
-        this.setTransform(x,-30,0.5,0.5);
+
+
+
+        this.setTransform(x,window.app.adaptador *-30,window.app.adaptador * 0.5,window.app.adaptador * 0.5);
         
         this.suma = suma;
+
+        this.y_piso = ((window.app.canvas.height / 4) - ((this.image.height * window.app.adaptador) / 2)) * 3;
 
         this.set({x:x})
         
@@ -24,9 +29,9 @@
         {
             if(this.parent != null){
                 this.velocidad.y += this.velocidad.velocidad;
-                if(this.velocidad.y < 0 || this.y < 600){
+                if(this.velocidad.y < 0 || this.y < window.app.canvas.height){
                     this.set({y:this.y + this.velocidad.y});
-                }else if(this.y >= 600){
+                }else if(this.y >= window.app.canvas.height){
                     this.eliminar();
                     if(this.suma > 0)
                         window.app.quitarVida()

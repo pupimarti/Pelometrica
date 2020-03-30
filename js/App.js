@@ -20,8 +20,16 @@
     App.prototype.initialize = function(){
         var self = this;
         this.canvas = document.createElement("canvas");
-        this.canvas.width = 600;
-        this.canvas.height = 600;
+
+        if(this.canvas.height / 2 > this.canvas.width){
+            this.canvas.width = screen.width;
+            this.canvas.height = screen.width * 2;
+        }else{
+            this.canvas.width = screen.height / 2;
+            this.canvas.height = screen.height;
+        }
+
+        this.adaptador = this.canvas.height / 800;
 
         this.score = 0;
         this.vidas = 5;
@@ -40,12 +48,13 @@
     App.prototype.assetsCargados = function(){
         var bmp = this.cargador[rutaFondo];
         this.fondo = new createjs.Bitmap(bmp);
-        this.fondo.setTransform(0, 0, 2, 2);
+        this.fondo.setTransform(0, 0, this.canvas.width / this.fondo.image.width, this.canvas.height / this.fondo.image.height);
         this.stage.addChild(this.fondo);
 
         var bmpBola = this.cargador[rutaBola];
         this.bola = new Bola(bmpBola);
-        this.bola.set({x:250,y:415});
+        var x_bola = (this.canvas.width / 2) - ((this.bola.image.width * this.adaptador) / 2);
+        this.bola.setTransform(x_bola,this.canvas.height / 2, this.adaptador, this.adaptador);
         this.stage.addChild(this.bola);
 
         this.scoreText = new createjs.Text("Score: "+score, "bold 20px Arial", "#000");
@@ -63,16 +72,20 @@
         
         var bmp = this.cargador[rutaTitulo];
         this.titulo = new createjs.Bitmap(bmp);
-        this.titulo.setTransform(200,100,1,1);
+        var x_titulo = (this.canvas.width / 2) - ((this.titulo.image.width * this.adaptador) / 2);
+        var y_titulo = (this.canvas.height / 4) - ((this.titulo.image.height * this.adaptador) / 2);
+        this.titulo.setTransform(x_titulo,y_titulo,this.adaptador,this.adaptador);
         this.stage.addChild(this.titulo);
 
         var bmp = this.cargador[rutaJugar];
         this.jugar = new createjs.Bitmap(bmp);
-        this.jugar.setTransform(220,300,1,1);
+        var x_jugar = (this.canvas.width / 2) - ((this.jugar.image.width * this.adaptador) / 2);
+        var y_jugar = ((this.canvas.height / 4) - ((this.jugar.image.height * this.adaptador) / 2)) * 2;
+        this.jugar.setTransform(x_jugar,y_jugar,this.adaptador,this.adaptador);
         this.stage.addEventListener("stagemousedown", handleClick);
         function handleClick(e) {
            // Check si hace click a jugar (no encontre otra forma)
-           if(e.localX > 220 && e.localX < 370 && e.localY > 300 && e.localY < 340){ 
+           if(e.localX > x_jugar && e.localX < x_jugar + window.app.jugar.image.width && e.localY > y_jugar && e.localY < y_jugar + window.app.jugar.image.height){ 
                app.iniciarJuego();
            }
         }
@@ -111,7 +124,7 @@
 
         vidas = this.vidas;
         this.actualizarVida();
-        
+
         score = 0;
         this.actualizarScore();
 
@@ -147,7 +160,7 @@
 
     App.prototype.agregarAlimento = function (ruta, score, velocidad){
         var bmp = this.cargador[ruta];
-        var x = Math.floor(Math.random() * 550);
+        var x = Math.floor(Math.random() * (this.canvas.width - 50));
         var alimento = new Alimento(bmp, score, x, velocidad);
         this.stage.addChild(alimento);
         alimentos.push(alimento);

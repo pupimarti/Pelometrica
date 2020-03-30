@@ -6,8 +6,12 @@
     
     Bola.prototype = new createjs.Bitmap();
 
+
     Bola.prototype.inicializar = function(bmp){
         this.image = bmp;
+
+        this.y_piso = ((window.app.canvas.height / 4) - ((this.image.height * window.app.adaptador) / 2)) * 3;
+
         
         this.velocidad = {
             x: 0,
@@ -27,13 +31,13 @@
             if(this.velocidad.x <= -20){
                 this.velocidad.x = -20;
             }else{
-                this.velocidad.x -= 3;
+                this.velocidad.x -= 3 ;
             }
     }
 
     Bola.prototype.saltar = function(){
-        if(this.y === 425){
-            this.velocidad.y = -15;
+        if(this.y >= this.y_piso){
+            this.velocidad.y = -15 * window.app.adaptador;
         }
     }
 
@@ -48,13 +52,13 @@
                 }
                 this.set({x:this.x += this.velocidad.x, skewX: this.rotation + this.velocidad.x});
                 if(this.x <= -50)
-                    this.set({x: 600});
-                else if(this.x >= 600)
+                    this.set({x: window.app.canvas.width});
+                else if(this.x >= window.app.canvas.width)
                     this.set({x:-50});
             }
             
-            this.velocidad.y += 1;
-            if(this.velocidad.y < 0 || this.y < 425){
+            this.velocidad.y += 1 * window.app.adaptador;
+            if(this.velocidad.y < 0 || this.y < this.y_piso){
                 this.set({y:this.y + this.velocidad.y});
             }
         }
