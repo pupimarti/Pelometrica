@@ -19,6 +19,7 @@
 
     App.prototype.initialize = function(){
         var self = this;
+
         this.canvas = document.createElement("canvas");
 
         if(document.body.offsetHeight / 2 > document.body.offsetWidth){
@@ -31,13 +32,13 @@
             this.adaptador = this.canvas.height / 800;
         }
 
-
-        this.puntuacion = 0;
-        this.vidas = 5;
-
         var contenedor = document.getElementById("juego");
         contenedor.appendChild(this.canvas);
         this.stage = new createjs.Stage(this.canvas);
+
+        
+        this.puntuacion = 0;
+        this.vidas = 5;
 
         this.cargador = new Cargador();
         this.cargador.cargaCompletada = function(){
@@ -53,56 +54,33 @@
     }
 
     App.prototype.assetsCargados = function(){
-        var bmp = this.cargador[rutaFondo];
-        this.fondo = new createjs.Bitmap(bmp);
-        this.fondo.setTransform(0, 0, this.canvas.width / this.fondo.image.width, this.canvas.height / this.fondo.image.height);
-        this.stage.addChild(this.fondo);
+
+        this.fondo = this.crearBitmap(rutaFondo, 0, 0);
 
         var bmpBola = this.cargador[rutaBola];
         this.bola = new Bola(bmpBola);
-        var x_bola = (this.canvas.width / 2) - ((this.bola.image.width * this.adaptador) / 2);
+        var x_bola = (this.canvas.width / 2) - (ajustarDimension(this.bola.image.width) / 2);
         this.bola.setTransform(x_bola,this.canvas.height / 2, this.adaptador, this.adaptador);
         this.stage.addChild(this.bola);
 
-        this.puntuacionText = new createjs.Text("Puntuación: "+puntuacion, `bold ${20*this.adaptador}px Arial`, "#000");
-        this.puntuacionText.x = 20 * this.adaptador;
-        this.puntuacionText.y = 30 * this.adaptador;
-        this.puntuacionText.textBaseline = "alphabetic";
-        this.stage.addChild(this.puntuacionText);
+        this.puntuacionText = this.crearText("Puntuación: "+puntuacion,20,30);
 
-        this.vidaText = new createjs.Text("Vidas: "+vidas, `bold ${20*this.adaptador}px Arial`, "#000");
-        this.vidaText.x = 20 * this.adaptador;
-        this.vidaText.y = 50 * this.adaptador;
-        this.vidaText.textBaseline = "alphabetic";
-        this.stage.addChild(this.vidaText);
-
-        this.mejorPuntuacionText = new createjs.Text("Mejor Puntuación: "+vidas, `bold ${20*this.adaptador}px Arial`, "#000");
-        this.mejorPuntuacionText.x = 20 * this.adaptador;
-        this.mejorPuntuacionText.y = 50 * this.adaptador;
-        this.mejorPuntuacionText.textBaseline = "alphabetic";
-        this.stage.addChild(this.mejorPuntuacionText);
-
+        this.vidaText = this.crearText("Vidas: "+vidas,20,50);
         
-        var bmp = this.cargador[rutaTitulo];
-        this.titulo = new createjs.Bitmap(bmp);
-        var x_titulo = (this.canvas.width / 2) - ((this.titulo.image.width * this.adaptador) / 2);
-        var y_titulo = (this.canvas.height / 4) - ((this.titulo.image.height * this.adaptador) / 2);
-        this.titulo.setTransform(x_titulo,y_titulo,this.adaptador,this.adaptador);
-        this.stage.addChild(this.titulo);
+        this.mejorPuntuacionText = this.crearText("Mejor Puntuación: "+this.puntuacion,20,30);
 
-        var bmp = this.cargador[rutaJugar];
-        this.jugar = new createjs.Bitmap(bmp);
-        var x_jugar = (this.canvas.width / 2) - ((this.jugar.image.width * this.adaptador) / 2);
-        var y_jugar = ((this.canvas.height / 4) - ((this.jugar.image.height * this.adaptador) / 2)) * 2;
-        this.jugar.setTransform(x_jugar,y_jugar,this.adaptador,this.adaptador);
-        this.stage.addEventListener("stagemousedown", handleClick);
-        function handleClick(e) {
-           // Check si hace click a jugar (no encontre otra forma)
-           if(e.localX > x_jugar && e.localX < x_jugar + window.app.jugar.image.width && e.localY > y_jugar && e.localY < y_jugar + window.app.jugar.image.height){ 
-               app.iniciarJuego();
-           }
-        }
-        this.stage.addChild(this.jugar);
+        this.titulo = this.crearBitmap(rutaTitulo, 101, 168);
+
+
+        this.jugar = this.crearBitmap(rutaJugar, 124, 345);
+
+
+        this.stage.addEventListener("stagemousedown", function(e){
+            // Check si hace click a jugar (no encontre otra forma)
+            if(e.localX > ajustarDimension(124) && e.localX <  ajustarDimension(124 + window.app.jugar.image.width) && e.localY >  ajustarDimension(345) && e.localY < ajustarDimension(345 +window.app.jugar.image.height)){ 
+                app.iniciarJuego();
+            }
+        });
 
         this.panatallaInicio();
 
@@ -112,6 +90,25 @@
         function handleTick(e){
             self.tick();
         };
+    }
+
+    function ajustarDimension(medida){return medida * window.app.adaptador};
+
+    App.prototype.crearBitmap = function(ruta, x, y){
+        var bmp = this.cargador[ruta];
+        var bitmap = new createjs.Bitmap(bmp);
+        bitmap.setTransform(ajustarDimension(x),ajustarDimension(y),this.adaptador,this.adaptador);
+        window.app.stage.addChild(bitmap);
+        return bitmap;
+    }
+
+    App.prototype.crearText = function(texto, x, y){
+        var nuevoTexto = new createjs.Text(texto, `bold ${ajustarDimension(20)}px Arial`, "#000");
+        nuevoTexto.x = ajustarDimension(x);
+        nuevoTexto.y = ajustarDimension(y);
+        nuevoTexto.textBaseline = "alphabetic";
+        this.stage.addChild(nuevoTexto);
+        return nuevoTexto;
     }
 
     App.prototype.tick = function(){
