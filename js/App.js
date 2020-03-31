@@ -11,6 +11,8 @@
     var rutaTriangulo = "assets/Triangulo.png";
     var rutaTitulo = "assets/Titulo.png";
     var rutaJugar = "assets/Jugar.png";
+    var rutaFlechaIzq = "assets/flecha-izq.png";
+    var rutaFlechaDer = "assets/flecha-der.png";
 
     var alimentos = [];
 
@@ -53,7 +55,7 @@
                 {id:"mapa1", src:"sfx/mapa1_cancion.mp3"}
             ]);*/
         }
-        this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaTitulo, rutaJugar]);
+        this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaTitulo, rutaJugar, rutaFlechaIzq, rutaFlechaDer]);
     }
 
     App.prototype.assetsCargados = function(){
@@ -77,6 +79,10 @@
 
         this.jugar = this.crearBitmap(rutaJugar, 124, 345);
 
+        this.flechaIzq = this.crearBitmap(rutaFlechaIzq, 20, 700);
+
+        this.flechaDer = this.crearBitmap(rutaFlechaDer, 330, 700);
+
 
         this.stage.addEventListener("stagemousedown", handleClick);
 
@@ -91,10 +97,27 @@
     }
 
     function handleClick(e){
-        // Check si hace click a jugar (no encontre otra forma)
-        if(e.localX > ajustarDimension(124) && e.localX <  ajustarDimension(124 + window.app.jugar.image.width) && e.localY >  ajustarDimension(345) && e.localY < ajustarDimension(345 +window.app.jugar.image.height)){ 
-            app.iniciarJuego();
+        if(app.jugar.visible){
+            if(hizoClickEnBitmap(e, app.jugar))
+                app.iniciarJuego();
         }
+        else if(hizoClickEnBitmap(e, app.flechaIzq))
+                app.bola.moverIzquierda();
+        else if(hizoClickEnBitmap(e, app.flechaDer))
+                app.bola.moverDerecha();
+        else
+            app.bola.saltar();
+    }
+
+    function hizoClickEnBitmap(e, bitmap){
+        //no encontre otra forma sin que tire error
+        if(e.localX > bitmap.x 
+            && e.localX < bitmap.x + ajustarDimension(bitmap.image.width) 
+            && e.localY >  bitmap.y 
+            && e.localY < bitmap.y + ajustarDimension(bitmap.image.height)){ 
+                return true;
+        }
+        return false;
     }
 
 
