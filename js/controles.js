@@ -8,10 +8,8 @@ function handleClickMovil(e){
         if(hizoClickEn_Movil(e, app.jugar))
             app.iniciarJuego();
     }
-    if(hizoClickEn_Movil(e, app.flechaIzq)){
-            alert('entro aca');
+    if(hizoClickEn_Movil(e, app.flechaIzq))
             app.bola.moverIzquierda();
-    }
     else if(hizoClickEn_Movil(e, app.flechaDer))
             app.bola.moverDerecha();
     else

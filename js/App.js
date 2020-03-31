@@ -84,9 +84,9 @@
         this.flechaDer = this.crearBitmap(rutaFlechaDer, 330, 700);
 
 
-        this.stage.addEventListener("stagemousedown", handleClick);
+        //this.stage.addEventListener("stagemousedown", handleClick);
 
-        this.stage.addEventListener("stagemouseup", handleUpClick);
+        //this.stage.addEventListener("stagemouseup", handleUpClick);
 
 
         this.panatallaInicio();
