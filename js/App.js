@@ -66,7 +66,7 @@
         this.puntuacionText = this.crearText("Puntuación: "+puntuacion,20,30);
 
         this.vidaText = this.crearText("Vidas: "+vidas,20,50);
-        
+
         this.mejorPuntuacionText = this.crearText("Mejor Puntuación: "+this.puntuacion,20,30);
 
         this.titulo = this.crearBitmap(rutaTitulo, 101, 168);
@@ -176,10 +176,18 @@
         clearInterval(this.timerMalo);
     }
 
-    App.prototype.agregarAlimento = function (ruta, puntuacion, velocidad){
+    App.prototype.agregarAlimento = function (ruta, suma, velocidad){
         var bmp = this.cargador[ruta];
         var x = Math.floor(Math.random() * (this.canvas.width - 50));
-        var alimento = new Alimento(bmp, puntuacion, x, velocidad);
+        var velocidad_nueva = velocidad;
+        if(puntuacion > 10000)
+            velocidad_nueva *= 3;
+        else if(puntuacion > 5000)
+            velocidad_nueva *= 2;
+        else if(puntuacion > 2500)
+            velocidad_nueva *= 1.5;
+            
+        var alimento = new Alimento(bmp, suma, x, velocidad_nueva);
         this.stage.addChild(alimento);
         alimentos.push(alimento);
     }
