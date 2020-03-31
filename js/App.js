@@ -86,6 +86,9 @@
 
         this.stage.addEventListener("stagemousedown", handleClick);
 
+        this.stage.addEventListener("stagemouseup", handleUpClick);
+
+
         this.panatallaInicio();
 
         var self = this;
@@ -101,12 +104,19 @@
             if(hizoClickEnBitmap(e, app.jugar))
                 app.iniciarJuego();
         }
-        else if(hizoClickEnBitmap(e, app.flechaIzq))
+        if(hizoClickEnBitmap(e, app.flechaIzq))
                 app.bola.moverIzquierda();
         else if(hizoClickEnBitmap(e, app.flechaDer))
                 app.bola.moverDerecha();
         else
             app.bola.saltar();
+    }
+
+    function handleUpClick(e){
+        if(hizoClickEnBitmap(e, app.flechaIzq))
+                app.bola.noMoverIzquierda();
+        else if(hizoClickEnBitmap(e, app.flechaDer))
+                app.bola.noMoverDerecha();
     }
 
     function hizoClickEnBitmap(e, bitmap){
@@ -193,7 +203,7 @@
         this.timerLluvia = setInterval(`app.agregarAlimento('${rutaCuadrado}',100, 0.005)`, 4000);
         this.timerPoligono = setInterval(`app.agregarAlimento('${rutaPoligono}',175, 0.008)`, 5000);
         this.timerTriangulo = setInterval(`app.agregarAlimento('${rutaTriangulo}',250, 0.01)`, 7500);
-        this.timerMalo = setInterval(`app.agregarAlimento('${rutaTrianguMalo}',-1, 0.1)`, 9500);
+        this.timerMalo = setInterval(`app.agregarAlimento('${rutaTrianguMalo}',-1, 0.08)`, 9500);
     }
 
     App.prototype.pararLluvia = function(){
@@ -258,6 +268,24 @@
             case 'd': //d
             case 'ArrowRight':
                 app.bola.moverDerecha();
+                break;
+        }
+    })
+
+    document.addEventListener("keyup", function(e){
+        switch(e.key){
+            case 'w': //w
+            case 'ArrowUp':
+            case ' ': //space
+                app.bola.saltar();
+                break;
+            case 'a': //a
+            case 'ArrowLeft':
+                app.bola.noMoverIzquierda();
+                break;
+            case 'd': //d
+            case 'ArrowRight':
+                app.bola.noMoverDerecha();
                 break;
         }
     })

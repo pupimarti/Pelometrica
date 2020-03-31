@@ -1,0 +1,9 @@
+{
+    "short_name": "Pupi Ball",
+    "name": "Pupi Ball",
+    "start_url": "index.html",
+    "display": "standalone",
+    "theme_color": "#efefef",
+    "background_color": "#efefef"
+  }
+  

@@ -16,22 +16,27 @@
             x: 0,
             y: 0,
         }
+
+        this.moverIzq = false;
+        this.moverDer = false;
     }
 
     Bola.prototype.moverDerecha = function(){
-        if(this.velocidad.x >= 20){
-            this.velocidad.x = 20;
-        }else{
-            this.velocidad.x += ajustarDimension(2);
-        }
+        this.moverIzq = false;
+        this.moverDer = true;
     }
 
     Bola.prototype.moverIzquierda = function(){
-            if(this.velocidad.x <= -20){
-                this.velocidad.x = -20;
-            }else{
-                this.velocidad.x -= ajustarDimension(2);
-            }
+        this.moverDer = false;
+        this.moverIzq = true;
+    }
+
+    Bola.prototype.noMoverDerecha = function(){
+        this.moverDer = false;
+    }
+
+    Bola.prototype.noMoverIzquierda = function(){
+        this.moverIzq = false;
     }
 
     Bola.prototype.saltar = function(){
@@ -42,6 +47,22 @@
 
     Bola.prototype.update = function(){
         {
+
+            if(this.moverIzq){
+                if(this.velocidad.x <= -20){
+                    this.velocidad.x = -20;
+                }else{
+                    this.velocidad.x -= ajustarDimension(1);
+                }
+            }
+
+            if(this.moverDer){
+                if(this.velocidad.x >= 20){
+                    this.velocidad.x = 20;
+                }else{
+                    this.velocidad.x += ajustarDimension(1);
+                }
+            }
 
             if(this.velocidad.x != 0){
                 if(this.velocidad.x > 0){

@@ -29,9 +29,9 @@
         {
             if(this.parent != null){
                 this.velocidad.y += ajustarDimension(this.velocidad.velocidad);
-                if(this.velocidad.y < 0 || this.y < height){
+                if(this.y < height){
                     this.set({y:this.y + this.velocidad.y});
-                }else if(this.y >= height){
+                }else{
                     this.eliminar();
                     if(this.suma > 0)
                         window.app.quitarVida()
