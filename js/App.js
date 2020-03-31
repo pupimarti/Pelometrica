@@ -1,3 +1,8 @@
+let height = 0;
+let width = 0;
+let offsetLeft = 0;
+let offsetTop = 0;
+
 (function(scope){
     function App(){
         this.initialize();
@@ -41,6 +46,8 @@
         contenedor.appendChild(this.canvas);
         this.stage = new createjs.Stage(this.canvas);
 
+        offsetLeft = this.canvas.offsetLeft;
+        offsetTop = this.canvas.offsetTop;
         
         this.puntuacion = 0;
         this.vidas = 5;
@@ -275,9 +282,6 @@
     scope.App = App;
 }(window));
 
-
-let height = 0;
-let width = 0;
 
 function ajustarDimension(medida){
     if(window.app.adaptador)

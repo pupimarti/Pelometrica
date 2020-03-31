@@ -23,13 +23,14 @@ function handleUpClickMovil(e){
             app.bola.noMoverDerecha();
 }
 
+
 function hizoClickEn_Movil(e, bitmap){
     //no encontre otra forma sin que tire error
-    if(e.touches.length > 0){
-        if(e.touches[0].clientX > bitmap.x 
-            && e.touches[0].clientX < bitmap.x + ajustarDimension(bitmap.image.width) 
-            && e.touches[0].clientY >  bitmap.y 
-            && e.touches[0].clientY < bitmap.y + ajustarDimension(bitmap.image.height))
+    if(e.changedTouches.length > 0){
+        if(e.changedTouches[0].pageX - offsetLeft > bitmap.x 
+            && e.changedTouches[0].pageX - offsetLeft < bitmap.x + bitmap.image.width
+            && e.changedTouches[0].pageY - offsetTop >  bitmap.y 
+            && e.changedTouches[0].pageY - offsetTop < bitmap.y + bitmap.image.height)
                 return true;
     }
     return false;
