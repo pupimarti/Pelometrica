@@ -32,6 +32,9 @@
             this.adaptador = this.canvas.height / 800;
         }
 
+        height = this.canvas.height;
+        width = this.canvas.width;
+
         var contenedor = document.getElementById("juego");
         contenedor.appendChild(this.canvas);
         this.stage = new createjs.Stage(this.canvas);
@@ -75,24 +78,25 @@
         this.jugar = this.crearBitmap(rutaJugar, 124, 345);
 
 
-        this.stage.addEventListener("stagemousedown", function(e){
-            // Check si hace click a jugar (no encontre otra forma)
-            if(e.localX > ajustarDimension(124) && e.localX <  ajustarDimension(124 + window.app.jugar.image.width) && e.localY >  ajustarDimension(345) && e.localY < ajustarDimension(345 +window.app.jugar.image.height)){ 
-                app.iniciarJuego();
-            }
-        });
+        this.stage.addEventListener("stagemousedown", handleClick);
 
         this.panatallaInicio();
 
         var self = this;
-        createjs.Ticker.interval = 20;
+        createjs.Ticker.interval = 10;
         createjs.Ticker.addEventListener("tick", handleTick);
         function handleTick(e){
             self.tick();
         };
     }
 
-    function ajustarDimension(medida){return medida * window.app.adaptador};
+    function handleClick(e){
+        // Check si hace click a jugar (no encontre otra forma)
+        if(e.localX > ajustarDimension(124) && e.localX <  ajustarDimension(124 + window.app.jugar.image.width) && e.localY >  ajustarDimension(345) && e.localY < ajustarDimension(345 +window.app.jugar.image.height)){ 
+            app.iniciarJuego();
+        }
+    }
+
 
     App.prototype.crearBitmap = function(ruta, x, y){
         var bmp = this.cargador[ruta];
@@ -178,7 +182,7 @@
 
     App.prototype.agregarAlimento = function (ruta, suma, velocidad){
         var bmp = this.cargador[ruta];
-        var x = Math.floor(Math.random() * (this.canvas.width - 50));
+        var x = Math.floor(Math.random() * (this.canvas.width - ajustarDimension(25)));
         var velocidad_nueva = velocidad;
         if(puntuacion > 10000)
             velocidad_nueva *= 3;
@@ -237,6 +241,17 @@
         
     scope.App = App;
 }(window));
+
+
+let height = 0;
+let width = 0;
+
+function ajustarDimension(medida){
+    if(window.app.adaptador)
+        return medida * window.app.adaptador
+    else
+        return 0;
+};
 
 window.onload = function(){
     this.app = new App();
