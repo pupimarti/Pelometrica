@@ -8,13 +8,14 @@ function handleClickMovil(e){
         if(hizoClickEn_Movil(e, app.jugar))
             app.iniciarJuego();
     }
-    if(hizoClickEn_Movil(e, app.flechaIzq))
+    if(hizoClickEn_Movil(e, app.flechaIzq)){
+            alert('entro aca');
             app.bola.moverIzquierda();
+    }
     else if(hizoClickEn_Movil(e, app.flechaDer))
             app.bola.moverDerecha();
     else
         app.bola.saltar();
-        alert('llego hasta aca');
 }
 
 function handleUpClickMovil(e){
