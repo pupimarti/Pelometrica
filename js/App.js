@@ -21,7 +21,13 @@
         var self = this;
         this.canvas = document.createElement("canvas");
 
-        if(this.canvas.height / 2 > this.canvas.width){
+        console.log(document.body.scrollWidth);
+        console.log(screen.width);
+
+        console.log(document.body.scrollHeight);
+        console.log(screen.height);
+
+        if(screen.height / 2 > screen.width){
             this.canvas.width = screen.width;
             this.canvas.height = screen.width * 2;
             this.adaptador = this.canvas.width / 400;
