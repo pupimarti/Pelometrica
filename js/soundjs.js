@@ -7194,7 +7194,7 @@ this.createjs = this.createjs || {};
 
 		var xhr = new XMLHttpRequest();
 		try {
-			xhr.open("GET", "WebAudioPluginTest.fail", false); // loading non-existant file triggers 404 only if it could load (synchronous call)
+			//xhr.open("GET", "WebAudioPluginTest.fail", false); // loading non-existant file triggers 404 only if it could load (synchronous call)
 		} catch (error) {
 			// catch errors in cases where the onerror is passed by
 			supported = false;

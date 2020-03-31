@@ -42,6 +42,12 @@
         this.cargador = new Cargador();
         this.cargador.cargaCompletada = function(){
             self.assetsCargados();
+            var queue = new createjs.LoadQueue();
+            createjs.Sound.alternateExtensions = ["mp3"];
+            queue.installPlugin(createjs.Sound);
+            queue.loadManifest([
+                {id:"mapa1", src:"sfx/mapa1_cancion.mp3"}
+            ]);
         }
         this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaTitulo, rutaJugar]);
     }
@@ -123,6 +129,7 @@
 
     App.prototype.iniciarJuego = function(){
 
+        createjs.Sound.play("mapa1");
         this.titulo.visible = false;
         this.jugar.visible = false;
         this.mejorPuntuacionText.visible = false;
@@ -141,6 +148,7 @@
 
     
     App.prototype.pararJuego = function(){
+        createjs.Sound.stop();
         if(puntuacion > this.puntuacion){
             this.puntuacion = puntuacion;
             this.actualizarMejorPuntuacion();

@@ -8,7 +8,7 @@
     var cargaCompletada = Cargador.prototype;
 
     Cargador.prototype.inicializar = function(){
-
+        
     };
 
     Cargador.prototype.cargarImagenes = function(lista){
