@@ -148,7 +148,7 @@
 
     
     App.prototype.pararJuego = function(){
-        createjs.Sound.stop();
+        //createjs.Sound.stop();
         if(puntuacion > this.puntuacion){
             this.puntuacion = puntuacion;
             this.actualizarMejorPuntuacion();
