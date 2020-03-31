@@ -71,7 +71,7 @@
         this.puntuacionText = this.crearText("Puntuación: "+puntuacion,20,30);
 
         this.vidaText = this.crearText("Vidas: "+vidas,20,50);
-
+        
         this.mejorPuntuacionText = this.crearText("Mejor Puntuación: "+this.puntuacion,20,30);
 
         this.titulo = this.crearBitmap(rutaTitulo, 101, 168);

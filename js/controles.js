@@ -14,6 +14,7 @@ function handleClickMovil(e){
             app.bola.moverDerecha();
     else
         app.bola.saltar();
+        alert('llego hasta aca');
 }
 
 function handleUpClickMovil(e){
