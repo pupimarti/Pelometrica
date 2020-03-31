@@ -21,19 +21,13 @@
         var self = this;
         this.canvas = document.createElement("canvas");
 
-        console.log(document.body.scrollWidth);
-        console.log(screen.width);
-
-        console.log(document.body.scrollHeight);
-        console.log(screen.height);
-
-        if(screen.height / 2 > screen.width){
-            this.canvas.width = screen.width;
-            this.canvas.height = screen.width * 2;
+        if(document.body.offsetHeight / 2 > document.body.offsetWidth){
+            this.canvas.width = document.body.offsetWidth;
+            this.canvas.height = document.body.offsetWidth * 2;
             this.adaptador = this.canvas.width / 400;
         }else{
-            this.canvas.width = screen.height / 2;
-            this.canvas.height = screen.height;
+            this.canvas.width = document.body.offsetHeight / 2;
+            this.canvas.height = document.body.offsetHeight;
             this.adaptador = this.canvas.height / 800;
         }
 
@@ -48,12 +42,12 @@
         this.cargador = new Cargador();
         this.cargador.cargaCompletada = function(){
             self.assetsCargados();
-            var queue = new createjs.LoadQueue();
+           /* var queue = new createjs.LoadQueue();
             createjs.Sound.alternateExtensions = ["mp3"];
             queue.installPlugin(createjs.Sound);
             queue.loadManifest([
                 {id:"mapa1", src:"sfx/mapa1_cancion.mp3"}
-            ]);
+            ]);*/
         }
         this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaTitulo, rutaJugar]);
     }
@@ -135,7 +129,7 @@
 
     App.prototype.iniciarJuego = function(){
 
-        createjs.Sound.play("mapa1");
+        //createjs.Sound.play("mapa1");
         this.titulo.visible = false;
         this.jugar.visible = false;
         this.mejorPuntuacionText.visible = false;
