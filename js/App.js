@@ -271,24 +271,6 @@
                 break;
         }
     })
-
-    document.addEventListener("keyup", function(e){
-        switch(e.key){
-            case 'w': //w
-            case 'ArrowUp':
-            case ' ': //space
-                app.bola.saltar();
-                break;
-            case 'a': //a
-            case 'ArrowLeft':
-                app.bola.noMoverIzquierda();
-                break;
-            case 'd': //d
-            case 'ArrowRight':
-                app.bola.noMoverDerecha();
-                break;
-        }
-    })
         
     scope.App = App;
 }(window));
