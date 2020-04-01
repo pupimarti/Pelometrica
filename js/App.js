@@ -55,9 +55,10 @@ let offsetTop = 0;
         offsetTop = this.canvas.offsetTop;
 
         
-        if(!getCookie("record"))
+        if(!checkCookie("record"))
             this.record = 0;
         else
+            this.record = getCookie("record");
         
         this.vidas = 5;
 
@@ -259,7 +260,7 @@ let offsetTop = 0;
     App.prototype.actualizarRecord = function(){
         if(puntuacion > this.record){
             this.record = puntuacion;
-            crearCookie("record", this.record, 365);
+            setCookie("record", this.record, 365);
             this.recordText.set({text:'Récord: '+ this.record});
         }        
     };
