@@ -3,10 +3,9 @@ document.addEventListener("touchstart", handleClickMovil);
 document.addEventListener("touchend", handleUpClickMovil);
 
 function handleClickMovil(e){
-    if(app.jugar.visible){
-        if(hizoClickEn_Movil(e, app.jugar))
-            app.iniciarJuego();
-    }
+    if(app.jugar.visible)
+        app.iniciarJuego();
+
     if(hizoClickEn_Movil(e, app.flechaIzq))
             app.bola.moverIzquierda();
     else if(hizoClickEn_Movil(e, app.flechaDer))
@@ -35,6 +34,27 @@ function hizoClickEn_Movil(e, bitmap){
     return false;
 }
 
+document.addEventListener("keydown", function(e){
+    if(app.jugar.visible)
+        app.iniciarJuego();
+        
+    switch(e.key){
+        case 'w': //w
+        case 'ArrowUp':
+        case ' ': //space
+            app.bola.saltar();
+            break;
+        case 'a': //a
+        case 'ArrowLeft':
+            app.bola.moverIzquierda();
+            break;
+        case 'd': //d
+        case 'ArrowRight':
+            app.bola.moverDerecha();
+            break;
+    }
+});
+
 document.addEventListener("keyup", function(e){
     switch(e.key){
         case 'w': //w
@@ -51,4 +71,4 @@ document.addEventListener("keyup", function(e){
             app.bola.noMoverDerecha();
             break;
     }
-})
+});

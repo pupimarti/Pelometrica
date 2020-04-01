@@ -75,25 +75,23 @@ let offsetTop = 0;
         this.bola.setTransform(x_bola,this.canvas.height / 2, this.adaptador, this.adaptador);
         this.stage.addChild(this.bola);
 
-        this.puntuacionText = this.crearText(puntuacion,200,30,50);
-        this.puntuacionText.textAlign = "center";
+        this.puntuacionText = this.crearText(puntuacion,200,30,50, "center");
 
-        this.vidaText = this.crearText("♥:"+vidas,10,10,35);
-        this.vidaText.color = "#922B21";
+        this.vidaText = this.crearText("♥:"+vidas,10,10,35, "left", "#922B21");
         
-        this.mejorPuntuacionText = this.crearText("Récord: "+this.puntuacion,20,20, 25);
-        this.mejorPuntuacionText.color = "#145A32";
+        this.mejorPuntuacionText = this.crearText("Récord: "+this.puntuacion,20,20, 25, "left", "#145A32");
 
-        this.titulo = this.crearBitmap(rutaTitulo, 101, 168);
+        this.titulo = this.crearText("PELOMÉTRICA", 200, 130, 50, "center", "#2E4053");
         
-
-        this.jugar = this.crearBitmap(rutaJugar, 124, 345);
         if(isMobile()){
+            this.jugar = this.crearText("(Presiona la pantalla para comenzar..)", 200, 500, 20, "center", "#212F3C")
             this.flechaIzq = this.crearBitmap(rutaFlechaIzq, 20, 700);
             this.flechaDer = this.crearBitmap(rutaFlechaDer, 330, 700);
+        }else{
+            this.jugar = this.crearText("(Pulsa cualquier tecla para comenzar..)", 200, 500, 20, "center", "#212F3C")
         }
 
-        if(!isMobile())
+/*        if(!isMobile())
             this.stage.addEventListener("stagemousedown", handleClick);
 
         function handleClick(e){
@@ -112,7 +110,7 @@ let offsetTop = 0;
                     return true;
             }
             return false;
-        }
+        }*/
 
         
         this.panatallaInicio();
@@ -134,10 +132,12 @@ let offsetTop = 0;
         return bitmap;
     }
 
-    App.prototype.crearText = function(texto, x, y, tamano){
+    App.prototype.crearText = function(texto, x, y, tamano, align, color = "#000"){
         var nuevoTexto = new createjs.Text(texto, `${ajustarDimension(tamano)}px 'Baloo Thambi 2', cursive`, "#000");
         nuevoTexto.x = ajustarDimension(x);
         nuevoTexto.y = ajustarDimension(y);
+        nuevoTexto.textAlign = align;
+        nuevoTexto.color = color;
         this.stage.addChild(nuevoTexto);
         return nuevoTexto;
     }
@@ -251,25 +251,6 @@ let offsetTop = 0;
     App.prototype.actualizarPuntuacion = function(){this.puntuacionText.set({text:puntuacion})};
 
     App.prototype.actualizarMejorPuntuacion = function(){this.mejorPuntuacionText.set({text:'Récord: '+ this.puntuacion})};
-
-
-    document.addEventListener("keydown", function(e){
-        switch(e.key){
-            case 'w': //w
-            case 'ArrowUp':
-            case ' ': //space
-                app.bola.saltar();
-                break;
-            case 'a': //a
-            case 'ArrowLeft':
-                app.bola.moverIzquierda();
-                break;
-            case 'd': //d
-            case 'ArrowRight':
-                app.bola.moverDerecha();
-                break;
-        }
-    })
         
     scope.App = App;
 }(window));
