@@ -70,7 +70,7 @@ let offsetTop = 0;
         }
         this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaFlechaIzq, rutaFlechaDer]);
     }
-    
+
     App.prototype.assetsCargados = function(){
 
         this.fondo = this.crearBitmap(rutaFondo, 0, 0);
@@ -183,10 +183,10 @@ let offsetTop = 0;
     
     App.prototype.pararJuego = function(){
         //createjs.Sound.stop();
+        this.jugando = false;
         this.actualizarRecord();
         this.vidaText.visible = false;
         this.puntuacionText.visible = false;
-        this.pararLluvia();
     }
 
     App.prototype.panatallaInicio = function(){
@@ -197,33 +197,36 @@ let offsetTop = 0;
     }
 
     App.prototype.iniciarLluvia = function(){
-        this.timerLluvia = setInterval(`app.agregarAlimento('${rutaCuadrado}',100, 0.005)`, 4000);
-        this.timerPoligono = setInterval(`app.agregarAlimento('${rutaPoligono}',175, 0.008)`, 5000);
-        this.timerTriangulo = setInterval(`app.agregarAlimento('${rutaTriangulo}',250, 0.01)`, 7500);
-        this.timerMalo = setInterval(`app.agregarAlimento('${rutaTrianguMalo}',-1, 0.08)`, 9500);
-    }
-
-    App.prototype.pararLluvia = function(){
-        clearInterval(this.timerLluvia);
-        clearInterval(this.timerPoligono);
-        clearInterval(this.timerTriangulo);
-        clearInterval(this.timerMalo);
+        this.jugando = true;
+        setTimeout(`app.agregarAlimento('${rutaCuadrado}',100, 0.005)`, 2000);
+        setTimeout(`app.agregarAlimento('${rutaPoligono}',175, 0.008)`, 3000);
+        setTimeout(`app.agregarAlimento('${rutaTriangulo}',250, 0.01)`, 4500);
+        setTimeout(`app.agregarAlimento('${rutaTrianguMalo}',-1, 0.08)`, 5000);
     }
 
     App.prototype.agregarAlimento = function (ruta, suma, velocidad){
-        var bmp = this.cargador[ruta];
-        var x = Math.floor(Math.random() * (this.canvas.width - ajustarDimension(25)));
-        var velocidad_nueva = velocidad;
-        if(puntuacion > 10000)
-            velocidad_nueva *= 3;
-        else if(puntuacion > 5000)
-            velocidad_nueva *= 2;
-        else if(puntuacion > 2500)
-            velocidad_nueva *= 1.5;
+        if(this.jugando){
+            var bmp = this.cargador[ruta];
+            var x = Math.floor(Math.random() * (this.canvas.width - ajustarDimension(25)));
+            var velocidad_nueva = velocidad;
+            if(puntuacion > 10000)
+                velocidad_nueva *= 3;
+            else if(puntuacion > 5000)
+                velocidad_nueva *= 2;
+            else if(puntuacion > 2500)
+                velocidad_nueva *= 1.5;
+                
+            var alimento = new Alimento(bmp, suma, x, velocidad_nueva);
+            this.stage.addChild(alimento);
+            alimentos.push(alimento);
             
-        var alimento = new Alimento(bmp, suma, x, velocidad_nueva);
-        this.stage.addChild(alimento);
-        alimentos.push(alimento);
+            if(suma < 0)
+                var tiempo = Math.floor(Math.random() * (4000 - 1000)) + 1000;
+            else
+                var tiempo = Math.floor(Math.random() * (suma * 10 * 3 - suma*  10)) + suma * 10;
+            setTimeout(`app.agregarAlimento('${ruta}', ${suma}, ${velocidad})`, tiempo);
+        }   
+        
     }
 
     App.prototype.eliminarAlimento = function(alimento){
