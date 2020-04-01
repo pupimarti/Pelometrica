@@ -3,9 +3,10 @@ document.addEventListener("touchstart", handleClickMovil);
 document.addEventListener("touchend", handleUpClickMovil);
 
 function handleClickMovil(e){
-    if(app.jugar.visible)
-        app.iniciarJuego();
-
+    if(app.jugar.visible){
+        if(hizoClickEn_Movil(e, app.bola))
+            app.iniciarJuego();
+    }
     if(hizoClickEn_Movil(e, app.flechaIzq))
             app.bola.moverIzquierda();
     else if(hizoClickEn_Movil(e, app.flechaDer))
@@ -35,10 +36,11 @@ function hizoClickEn_Movil(e, bitmap){
 }
 
 document.addEventListener("keydown", function(e){
-    if(app.jugar.visible)
-        app.iniciarJuego();
-        
     switch(e.key){
+        case 'j':
+            if(app.jugar.visible)
+                app.iniciarJuego();
+            break;
         case 'w': //w
         case 'ArrowUp':
         case ' ': //space

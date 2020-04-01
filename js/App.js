@@ -14,8 +14,6 @@ let offsetTop = 0;
     var rutaTrianguMalo = "assets/Triangumalo.png";
     var rutaPoligono = "assets/poligono.png";
     var rutaTriangulo = "assets/Triangulo.png";
-    var rutaTitulo = "assets/Titulo.png";
-    var rutaJugar = "assets/Jugar.png";
     var rutaFlechaIzq = "assets/flecha-izq.png";
     var rutaFlechaDer = "assets/flecha-der.png";
 
@@ -62,7 +60,7 @@ let offsetTop = 0;
                 {id:"mapa1", src:"sfx/mapa1_cancion.mp3"}
             ]);*/
         }
-        this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaTitulo, rutaJugar, rutaFlechaIzq, rutaFlechaDer]);
+        this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaFlechaIzq, rutaFlechaDer]);
     }
 
     App.prototype.assetsCargados = function(){
@@ -84,11 +82,11 @@ let offsetTop = 0;
         this.titulo = this.crearText("PELOMÉTRICA", 200, 130, 50, "center", "#2E4053");
         
         if(isMobile()){
-            this.jugar = this.crearText("(Presiona la pantalla para comenzar..)", 200, 500, 20, "center", "#212F3C")
+            this.jugar = this.crearText("(Presiona la pelota para comenzar..)", 200, 500, 20, "center", "#212F3C")
             this.flechaIzq = this.crearBitmap(rutaFlechaIzq, 20, 700);
             this.flechaDer = this.crearBitmap(rutaFlechaDer, 330, 700);
         }else{
-            this.jugar = this.crearText("(Pulsa cualquier tecla para comenzar..)", 200, 500, 20, "center", "#212F3C")
+            this.jugar = this.crearText("(Pulsa la tecla 'J' para comenzar..)", 200, 500, 20, "center", "#212F3C")
         }
 
 /*        if(!isMobile())
