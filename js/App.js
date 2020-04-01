@@ -75,11 +75,14 @@ let offsetTop = 0;
         this.bola.setTransform(x_bola,this.canvas.height / 2, this.adaptador, this.adaptador);
         this.stage.addChild(this.bola);
 
-        this.puntuacionText = this.crearText("Puntuación: "+puntuacion,20,30);
+        this.puntuacionText = this.crearText(puntuacion,200,30,50);
+        this.puntuacionText.textAlign = "center";
 
-        this.vidaText = this.crearText("Vidas: "+vidas,20,50);
+        this.vidaText = this.crearText("♥:"+vidas,10,10,35);
+        this.vidaText.color = "#922B21";
         
-        this.mejorPuntuacionText = this.crearText("Mejor Puntuación: "+this.puntuacion,20,30);
+        this.mejorPuntuacionText = this.crearText("Récord: "+this.puntuacion,20,20, 25);
+        this.mejorPuntuacionText.color = "#145A32";
 
         this.titulo = this.crearBitmap(rutaTitulo, 101, 168);
         
@@ -131,11 +134,10 @@ let offsetTop = 0;
         return bitmap;
     }
 
-    App.prototype.crearText = function(texto, x, y){
-        var nuevoTexto = new createjs.Text(texto, `bold ${ajustarDimension(20)}px Arial`, "#000");
+    App.prototype.crearText = function(texto, x, y, tamano){
+        var nuevoTexto = new createjs.Text(texto, `${ajustarDimension(tamano)}px 'Baloo Thambi 2', cursive`, "#000");
         nuevoTexto.x = ajustarDimension(x);
         nuevoTexto.y = ajustarDimension(y);
-        nuevoTexto.textBaseline = "alphabetic";
         this.stage.addChild(nuevoTexto);
         return nuevoTexto;
     }
@@ -239,11 +241,16 @@ let offsetTop = 0;
         if(vidas <= 0) this.panatallaInicio();
     }
 
-    App.prototype.actualizarVida = function(){this.vidaText.set({text:'Vidas: '+ vidas})};
+    App.prototype.actualizarVida = function(){
+            var texto_vidas = "";
+            for(var i = 1; i <= vidas; i++)
+                texto_vidas += " ♥"
+            this.vidaText.set({text: texto_vidas}
+        )};
 
-    App.prototype.actualizarPuntuacion = function(){this.puntuacionText.set({text:'Puntuación: '+ puntuacion})};
+    App.prototype.actualizarPuntuacion = function(){this.puntuacionText.set({text:puntuacion})};
 
-    App.prototype.actualizarMejorPuntuacion = function(){this.mejorPuntuacionText.set({text:'Mejor Puntuacion: '+ this.puntuacion})};
+    App.prototype.actualizarMejorPuntuacion = function(){this.mejorPuntuacionText.set({text:'Récord: '+ this.puntuacion})};
 
 
     document.addEventListener("keydown", function(e){
