@@ -85,17 +85,33 @@ let offsetTop = 0;
 
 
         this.jugar = this.crearBitmap(rutaJugar, 124, 345);
+        if(isMobile()){
+            this.flechaIzq = this.crearBitmap(rutaFlechaIzq, 20, 700);
+            this.flechaDer = this.crearBitmap(rutaFlechaDer, 330, 700);
+        }
 
-        this.flechaIzq = this.crearBitmap(rutaFlechaIzq, 20, 700);
+        if(!isMobile())
+            this.stage.addEventListener("stagemousedown", handleClick);
 
-        this.flechaDer = this.crearBitmap(rutaFlechaDer, 330, 700);
+        function handleClick(e){
+            if(app.jugar.visible){
+                if(hizoClickEnBitmap(e, app.jugar))
+                    app.iniciarJuego();
+            }
+        }
+        
+        function hizoClickEnBitmap(e, bitmap){
+            //no encontre otra forma sin que tire error
+            if(e.localX > bitmap.x 
+                && e.localX < bitmap.x + ajustarDimension(bitmap.image.width) 
+                && e.localY >  bitmap.y 
+                && e.localY < bitmap.y + ajustarDimension(bitmap.image.height)){ 
+                    return true;
+            }
+            return false;
+        }
 
-
-        //this.stage.addEventListener("stagemousedown", handleClick);
-
-        //this.stage.addEventListener("stagemouseup", handleUpClick);
-
-
+        
         this.panatallaInicio();
 
         var self = this;
@@ -104,37 +120,6 @@ let offsetTop = 0;
         function handleTick(e){
             self.tick();
         };
-    }
-
-    function handleClick(e){
-        if(app.jugar.visible){
-            if(hizoClickEnBitmap(e, app.jugar))
-                app.iniciarJuego();
-        }
-        if(hizoClickEnBitmap(e, app.flechaIzq))
-                app.bola.moverIzquierda();
-        else if(hizoClickEnBitmap(e, app.flechaDer))
-                app.bola.moverDerecha();
-        else
-            app.bola.saltar();
-    }
-
-    function handleUpClick(e){
-        if(hizoClickEnBitmap(e, app.flechaIzq))
-                app.bola.noMoverIzquierda();
-        else if(hizoClickEnBitmap(e, app.flechaDer))
-                app.bola.noMoverDerecha();
-    }
-
-    function hizoClickEnBitmap(e, bitmap){
-        //no encontre otra forma sin que tire error
-        if(e.localX > bitmap.x 
-            && e.localX < bitmap.x + ajustarDimension(bitmap.image.width) 
-            && e.localY >  bitmap.y 
-            && e.localY < bitmap.y + ajustarDimension(bitmap.image.height)){ 
-                return true;
-        }
-        return false;
     }
 
 
@@ -293,3 +278,4 @@ function ajustarDimension(medida){
 window.onload = function(){
     this.app = new App();
 }
+

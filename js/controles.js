@@ -1,6 +1,5 @@
-//clicks en movil en movil
+//clicks en movil
 document.addEventListener("touchstart", handleClickMovil);
-
 document.addEventListener("touchend", handleUpClickMovil);
 
 function handleClickMovil(e){
