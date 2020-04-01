@@ -11,6 +11,18 @@
 
     <div id="juego"></div>
     <noscript>Necesitas tener JavaScript para poder correr esta web.</noscript>
+    <script>
+        function isMobile(){
+            return (
+                (navigator.userAgent.match(/Android/i)) ||
+                (navigator.userAgent.match(/webOS/i)) ||
+                (navigator.userAgent.match(/iPhone/i)) ||
+                (navigator.userAgent.match(/iPod/i)) ||
+                (navigator.userAgent.match(/iPad/i)) ||
+                (navigator.userAgent.match(/BlackBerry/i))
+            );
+        }
+    </script>
     <script type="text/javascript" src="js/easeljs.js"></script>
     <script type="text/javascript" src="js/soundjs.js"></script>
     <script type="text/javascript" src="js/preloadjs.js"></script>
