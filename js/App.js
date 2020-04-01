@@ -26,7 +26,7 @@ let offsetTop = 0;
         var self = this;
 
         this.canvas = document.createElement("canvas");
-        
+
         var ancho_pantalla = screen.availWidth;
         var largo_pantalla = screen.availHeight;
         if(document.body.offsetWidth < ancho_pantalla)
@@ -53,8 +53,12 @@ let offsetTop = 0;
 
         offsetLeft = this.canvas.offsetLeft;
         offsetTop = this.canvas.offsetTop;
+
         
-        this.puntuacion = 0;
+        if(!getCookie("record"))
+            this.record = 0;
+        else
+        
         this.vidas = 5;
 
         this.cargador = new Cargador();
@@ -84,7 +88,7 @@ let offsetTop = 0;
 
         this.vidaText = this.crearText("♥:"+vidas,10,10,35, "left", "#922B21");
         
-        this.mejorPuntuacionText = this.crearText("Récord: "+this.puntuacion,20,20, 25, "left", "#145A32");
+        this.recordText = this.crearText("Récord: "+this.record,200,380, 25, "center", "#FFF");
 
         this.titulo = this.crearText("PELOMÉTRICA", 200, 130, 50, "center", "#2E4053");
         
@@ -165,7 +169,7 @@ let offsetTop = 0;
         //createjs.Sound.play("mapa1");
         this.titulo.visible = false;
         this.jugar.visible = false;
-        this.mejorPuntuacionText.visible = false;
+        this.recordText.visible = false;
 
         this.vidaText.visible = true;
         this.puntuacionText.visible = true;
@@ -182,10 +186,7 @@ let offsetTop = 0;
     
     App.prototype.pararJuego = function(){
         //createjs.Sound.stop();
-        if(puntuacion > this.puntuacion){
-            this.puntuacion = puntuacion;
-            this.actualizarMejorPuntuacion();
-        }
+        this.actualizarRecord();
         this.vidaText.visible = false;
         this.puntuacionText.visible = false;
         this.pararLluvia();
@@ -195,7 +196,7 @@ let offsetTop = 0;
         this.pararJuego();
         this.titulo.visible = true;
         this.jugar.visible = true;
-        this.mejorPuntuacionText.visible = true;
+        this.recordText.visible = true;
     }
 
     App.prototype.iniciarLluvia = function(){
@@ -255,7 +256,13 @@ let offsetTop = 0;
 
     App.prototype.actualizarPuntuacion = function(){this.puntuacionText.set({text:puntuacion})};
 
-    App.prototype.actualizarMejorPuntuacion = function(){this.mejorPuntuacionText.set({text:'Récord: '+ this.puntuacion})};
+    App.prototype.actualizarRecord = function(){
+        if(puntuacion > this.record){
+            this.record = puntuacion;
+            crearCookie("record", this.record, 365);
+            this.recordText.set({text:'Récord: '+ this.record});
+        }        
+    };
         
     scope.App = App;
 }(window));
