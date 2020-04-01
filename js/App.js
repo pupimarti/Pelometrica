@@ -82,7 +82,7 @@ let offsetTop = 0;
         this.mejorPuntuacionText = this.crearText("Mejor Puntuación: "+this.puntuacion,20,30);
 
         this.titulo = this.crearBitmap(rutaTitulo, 101, 168);
-
+        
 
         this.jugar = this.crearBitmap(rutaJugar, 124, 345);
         if(isMobile()){
