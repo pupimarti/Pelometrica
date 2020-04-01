@@ -27,13 +27,13 @@ let offsetTop = 0;
 
         this.canvas = document.createElement("canvas");
 
-        if(document.body.offsetHeight / 2 > document.body.offsetWidth){
-            this.canvas.width = document.body.offsetWidth;
-            this.canvas.height = document.body.offsetWidth * 2;
+        if(screen.availHeight / 2 > screen.availWidth){
+            this.canvas.width = screen.availWidth;
+            this.canvas.height = screen.availWidth * 2;
             this.adaptador = this.canvas.width / 400;
         }else{
-            this.canvas.width = document.body.offsetHeight / 2;
-            this.canvas.height = document.body.offsetHeight;
+            this.canvas.width = screen.availHeight / 2;
+            this.canvas.height = screen.availHeight;
             this.adaptador = this.canvas.height / 800;
         }
 
