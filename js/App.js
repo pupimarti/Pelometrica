@@ -27,12 +27,8 @@ let offsetTop = 0;
 
         this.canvas = document.createElement("canvas");
 
-        var ancho_pantalla = screen.availWidth;
-        var largo_pantalla = screen.availHeight;
-        if(document.body.offsetWidth < ancho_pantalla)
-            ancho_pantalla = document.body.offsetWidth
-        if(document.body.offsetHeight < largo_pantalla)
-            largo_pantalla = document.body.offsetHeight
+        var ancho_pantalla = menorResolucion("width");
+        var largo_pantalla = menorResolucion("height");
 
         if(largo_pantalla/ 2 > ancho_pantalla){
             this.canvas.width = ancho_pantalla;
@@ -73,6 +69,20 @@ let offsetTop = 0;
             ]);*/
         }
         this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaFlechaIzq, rutaFlechaDer]);
+    }
+
+    function menorResolucion(cual){
+        var result = 0;
+        if(cual === "width"){
+            result = screen.availWidth;
+            if(document.body.offsetWidth < result) result = document.body.offsetWidth
+            if(window.innerWidth < result) result = window.innerWidth;
+        }else if(cual === "height"){
+            result = screen.availHeight;
+            if(document.body.offsetHeight < result) result = document.body.offsetHeight
+            if(window.innerHeight < result) result = window.innerHeight;
+        }
+        return result;
     }
 
     App.prototype.assetsCargados = function(){
