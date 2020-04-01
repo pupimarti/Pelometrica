@@ -251,7 +251,7 @@ let offsetTop = 0;
     App.prototype.actualizarVida = function(){
             var texto_vidas = "";
             for(var i = 1; i <= vidas; i++)
-                texto_vidas += " ♥"
+                texto_vidas += "♥ "
             this.vidaText.set({text: texto_vidas}
         )};
 

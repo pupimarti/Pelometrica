@@ -1,6 +1,13 @@
 {
-    "short_name": "Pupi Ball",
-    "name": "Pupi Ball",
+    "short_name": "Pelométrica",
+    "name": "Pelométrica",
+    "icons": [
+      {
+        "src": "./ico.jpg",
+        "sizes": "500x500",
+        "type": "image/png"
+      }
+    ],
     "start_url": "index.html",
     "display": "standalone",
     "theme_color": "#efefef",
