@@ -26,14 +26,21 @@ let offsetTop = 0;
         var self = this;
 
         this.canvas = document.createElement("canvas");
+        
+        var ancho_pantalla = screen.availWidth;
+        var largo_pantalla = screen.availHeight;
+        if(document.body.offsetWidth < ancho_pantalla)
+            ancho_pantalla = document.body.offsetWidth
+        if(document.body.offsetHeight < largo_pantalla)
+            largo_pantalla = document.body.offsetHeight
 
-        if(screen.availHeight / 2 > screen.availWidth){
-            this.canvas.width = screen.availWidth;
-            this.canvas.height = screen.availWidth * 2;
+        if(largo_pantalla/ 2 > ancho_pantalla){
+            this.canvas.width = ancho_pantalla;
+            this.canvas.height = ancho_pantalla * 2;
             this.adaptador = this.canvas.width / 400;
         }else{
-            this.canvas.width = screen.availHeight / 2;
-            this.canvas.height = screen.availHeight;
+            this.canvas.width = largo_pantalla / 2;
+            this.canvas.height = largo_pantalla;
             this.adaptador = this.canvas.height / 800;
         }
 
