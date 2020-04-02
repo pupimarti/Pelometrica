@@ -19,6 +19,20 @@
         });
     };
 
+    /*Cargador.prototype.cargarSonidos = function(lista){
+        this.cargados = false;
+        var self = this;
+        var queue = new createjs.LoadQueue();
+        createjs.Sound.alternateExtensions = ["mp3"];
+        queue.installPlugin(createjs.Sound);
+        queue.addEventListener("complete", function(){
+            this.cargados = true; 
+            self.cargoTodo();
+        }, this);
+        
+        queue.loadManifest(lista);
+    }
+*/
     Cargador.prototype.cargaImagen = function(ruta){
         var image = new Image();   
         var self = this;
@@ -32,9 +46,15 @@
     Cargador.prototype.imagenCargada = function(){
         this.cargadas ++;
         if(this.cargadas >= this.totales){
-            this.cargaCompletada();
+            this.cargoTodo();
         }
     }    
+
+    Cargador.prototype.cargoTodo = function(){
+        if(this.cargadas >= this.totales){
+            this.cargaCompletada();
+        }
+    }
 
     scope.Cargador = Cargador;
     }(window));

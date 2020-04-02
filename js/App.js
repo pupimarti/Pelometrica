@@ -17,6 +17,8 @@ let offsetTop = 0;
     var rutaFlechaIzq = "assets/flecha-izq.png";
     var rutaFlechaDer = "assets/flecha-der.png";
 
+    var cancion_fondo = {id:"cancion_fondo1", src:"sfx/mapa1_cancion.ogg"};
+
     var alimentos = [];
 
     var vidas = 0;
@@ -24,6 +26,10 @@ let offsetTop = 0;
 
     App.prototype.initialize = function(){
         var self = this;
+
+        this.sonido_mapa1 = document.createElement('audio');
+        this.sonido_mapa1.setAttribute('src', cancion_fondo.src);
+        this.sonido_mapa1.setAttribute('autoplay', false);
 
         this.canvas = document.createElement("canvas");
 
@@ -59,16 +65,9 @@ let offsetTop = 0;
         this.vidas = 5;
 
         this.cargador = new Cargador();
-        this.cargador.cargaCompletada = function(){
-            self.assetsCargados();
-           /* var queue = new createjs.LoadQueue();
-            createjs.Sound.alternateExtensions = ["mp3"];
-            queue.installPlugin(createjs.Sound);
-            queue.loadManifest([
-                {id:"mapa1", src:"sfx/mapa1_cancion.mp3"}
-            ]);*/
-        }
+        this.cargador.cargaCompletada = function(){self.assetsCargados()}
         this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaFlechaIzq, rutaFlechaDer]);
+        //this.cargador.cargarSonidos([cancion_fondo]);
     }
 
     App.prototype.assetsCargados = function(){
@@ -83,7 +82,7 @@ let offsetTop = 0;
 
         this.puntuacionText = this.crearText(puntuacion,200,30,50, "center");
 
-        this.vidaText = this.crearText("♥:"+vidas,10,10,35, "left", "#922B21");
+        this.vidaText = this.crearText("♥:"+vidas,5,5,30, "left", "#922B21");
         
         this.recordText = this.crearText("Récord: "+this.record,200,380, 25, "center", "#FFF");
 
@@ -163,7 +162,9 @@ let offsetTop = 0;
 
     App.prototype.iniciarJuego = function(){
 
-        //createjs.Sound.play("mapa1");
+        this.sonido_mapa1.currentTime=0;
+        this.sonido_mapa1.play();
+
         this.titulo.visible = false;
         this.jugar.visible = false;
         this.recordText.visible = false;
@@ -182,7 +183,8 @@ let offsetTop = 0;
 
     
     App.prototype.pararJuego = function(){
-        //createjs.Sound.stop();
+        this.sonido_mapa1.pause();
+        
         this.jugando = false;
         this.actualizarRecord();
         this.vidaText.visible = false;
@@ -209,7 +211,11 @@ let offsetTop = 0;
             var bmp = this.cargador[ruta];
             var x = Math.floor(Math.random() * (this.canvas.width - ajustarDimension(25)));
             var velocidad_nueva = velocidad;
-            if(puntuacion > 10000)
+            if(puntuacion > 20000)
+                velocidad_nueva *= 4;
+            else if(puntuacion > 15000)
+                velocidad_nueva *= 3.5;
+            else if(puntuacion > 10000)
                 velocidad_nueva *= 3;
             else if(puntuacion > 5000)
                 velocidad_nueva *= 2;
@@ -223,7 +229,7 @@ let offsetTop = 0;
             if(suma < 0)
                 var tiempo = Math.floor(Math.random() * (4000 - 1000)) + 1000;
             else
-                var tiempo = Math.floor(Math.random() * (suma * 10 * 3 - suma*  10)) + suma * 10;
+                var tiempo = Math.floor(Math.random() * ((suma * 10 * 3 - (puntuacion / 100)) - suma*  10)) + (suma * 10 - (puntuacion / 100));
             setTimeout(`app.agregarAlimento('${ruta}', ${suma}, ${velocidad})`, tiempo);
         }   
         
