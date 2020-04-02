@@ -3,6 +3,9 @@ let width = 0;
 let offsetLeft = 0;
 let offsetTop = 0;
 
+document.getElementById('juego').style.width = window.innerWidth;
+document.getElementById('juego').style.height = window.innerHeight;
+
 (function(scope){
     function App(){
         this.initialize();
