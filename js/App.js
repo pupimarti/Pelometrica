@@ -20,8 +20,6 @@ document.getElementById('juego').style.height = window.innerHeight;
     var rutaFlechaIzq = "assets/flecha-izq.png";
     var rutaFlechaDer = "assets/flecha-der.png";
 
-    var cancion_fondo = {id:"cancion_fondo1", src:"sfx/mapa1_cancion.ogg"};
-
     var alimentos = [];
 
     var vidas = 0;
@@ -29,10 +27,11 @@ document.getElementById('juego').style.height = window.innerHeight;
 
     App.prototype.initialize = function(){
         var self = this;
-
-        this.sonido_mapa1 = document.createElement('audio');
-        this.sonido_mapa1.setAttribute('src', cancion_fondo.src);
-        this.sonido_mapa1.setAttribute('autoplay', false);
+        
+        this.sonido_inicio = this.crearAudio("pantallainicio_cancion.ogg");
+        this.sonido_mapa1 = this.crearAudio("mapa1_cancion.ogg");
+        this.sonido_comida = this.crearAudio("sonido_comida.ogg");
+        this.sonido_resta = this.crearAudio("sonido_resta.ogg");
 
         this.canvas = document.createElement("canvas");
 
@@ -72,6 +71,14 @@ document.getElementById('juego').style.height = window.innerHeight;
         this.cargador.cargarImagenes([rutaFondo,rutaBola,rutaTrianguMalo, rutaPoligono,rutaTriangulo, rutaCuadrado, rutaFlechaIzq, rutaFlechaDer]);
         //this.cargador.cargarSonidos([cancion_fondo]);
     }
+
+    App.prototype.crearAudio = function(nombre){
+        var audio  = document.createElement('audio');
+        audio.setAttribute('src', "sfx/"+nombre);
+        audio.setAttribute('autoplay', false);
+        return audio;
+    }
+
 
     App.prototype.assetsCargados = function(){
 
@@ -164,7 +171,7 @@ document.getElementById('juego').style.height = window.innerHeight;
     }
 
     App.prototype.iniciarJuego = function(){
-
+        this.sonido_inicio.pause();
         this.sonido_mapa1.currentTime=0;
         this.sonido_mapa1.play();
 
@@ -195,6 +202,8 @@ document.getElementById('juego').style.height = window.innerHeight;
     }
 
     App.prototype.panatallaInicio = function(){
+        this.sonido_inicio.currentTime=0;
+        this.sonido_inicio.play();
         this.pararJuego();
         this.titulo.visible = true;
         this.jugar.visible = true;
@@ -247,11 +256,13 @@ document.getElementById('juego').style.height = window.innerHeight;
 
     App.prototype.sumarPuntuacion = function(suma){
         puntuacion += suma;
+        this.sonido_comida.play();
         this.actualizarPuntuacion();
     }
 
     App.prototype.quitarVida = function(){
         vidas--;
+        this.sonido_resta.play();
         this.actualizarVida();
         if(vidas <= 0) this.panatallaInicio();
     }
