@@ -28,11 +28,11 @@ document.getElementById('juego').style.height = window.innerHeight;
     App.prototype.initialize = function(){
         var self = this;
         
-        this.sonido_inicio = this.crearAudio("pantallainicio_cancion.ogg");
+        /*this.sonido_inicio = this.crearAudio("pantallainicio_cancion.ogg");
         this.sonido_mapa1 = this.crearAudio("mapa1_cancion.ogg");
         this.sonido_comida = this.crearAudio("sonido_comida.ogg");
         this.sonido_resta = this.crearAudio("sonido_resta.ogg");
-
+*/
         this.canvas = document.createElement("canvas");
 
         var ancho_pantalla = window.innerWidth;
@@ -72,12 +72,12 @@ document.getElementById('juego').style.height = window.innerHeight;
         //this.cargador.cargarSonidos([cancion_fondo]);
     }
 
-    App.prototype.crearAudio = function(nombre){
+    /*App.prototype.crearAudio = function(nombre){
         var audio  = document.createElement('audio');
         audio.setAttribute('src', "sfx/"+nombre);
         audio.setAttribute('autoplay', false);
         return audio;
-    }
+    }*/
 
 
     App.prototype.assetsCargados = function(){
@@ -171,9 +171,9 @@ document.getElementById('juego').style.height = window.innerHeight;
     }
 
     App.prototype.iniciarJuego = function(){
-        this.sonido_inicio.pause();
-        this.sonido_mapa1.currentTime=0;
-        this.sonido_mapa1.play();
+        //this.sonido_inicio.pause();
+        //his.sonido_mapa1.currentTime=0;
+        //this.sonido_mapa1.play();
 
         this.titulo.visible = false;
         this.jugar.visible = false;
@@ -193,7 +193,7 @@ document.getElementById('juego').style.height = window.innerHeight;
 
     
     App.prototype.pararJuego = function(){
-        this.sonido_mapa1.pause();
+        //this.sonido_mapa1.pause();
         
         this.jugando = false;
         this.actualizarRecord();
@@ -202,8 +202,8 @@ document.getElementById('juego').style.height = window.innerHeight;
     }
 
     App.prototype.panatallaInicio = function(){
-        this.sonido_inicio.currentTime=0;
-        this.sonido_inicio.play();
+       // this.sonido_inicio.currentTime=0;
+        //this.sonido_inicio.play();
         this.pararJuego();
         this.titulo.visible = true;
         this.jugar.visible = true;
@@ -256,13 +256,13 @@ document.getElementById('juego').style.height = window.innerHeight;
 
     App.prototype.sumarPuntuacion = function(suma){
         puntuacion += suma;
-        this.sonido_comida.play();
+        //this.sonido_comida.play();
         this.actualizarPuntuacion();
     }
 
     App.prototype.quitarVida = function(){
         vidas--;
-        this.sonido_resta.play();
+        //this.sonido_resta.play();
         this.actualizarVida();
         if(vidas <= 0) this.panatallaInicio();
     }
